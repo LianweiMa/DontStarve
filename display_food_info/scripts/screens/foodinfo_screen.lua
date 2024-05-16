@@ -285,7 +285,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 self.root.bg.prefabbg.searchbt:SetOnClick( function()
                     print("self.root.bg.searchbt:SetOnClick"..self.prefab)
                     self.title="searchprefab"
-                    self.buildlist(self.title)
+                    self:buildlist(self.title)
                     end)
             --添加
             self.root.bg.prefabbg.prefablist = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))        
@@ -329,16 +329,24 @@ function FoodInfoScreen:buildlist(title)
         local list_ingredient=tools.GetIngredientList()
         local list_food=tools.GetFoodList()
         local item = self.prefab
+        print("self.prefab:"..self.prefab)
+        print("list_ingredient.name:length():"..tostring(list_ingredient.name:length()))
         for j = 1, list_ingredient.name:length() do
+            print(tostring(j)..":list_ingredient.name[j]:"..list_ingredient.name[j])
             if string.find(list_ingredient.name[j], item) then
                 table.insert(list, list_ingredient[j])
+                print(tostring(j)..":list_ingredient[j]"..list_ingredient[j])
             end
         end
         for j = 1, list_food.name:length() do
             if string.find(list_food.name[j], item) then
                 table.insert(list, list_food[j])
+                print("list_food[j]")
             end
         end        
+    end
+    for k,v in pairs(list) do
+        print(k,v)
     end
     local listnums=list.name:length()
     local width, height = self.root.bg:GetSize()   
