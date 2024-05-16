@@ -102,90 +102,11 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 end
             end
         end)
-    -- 添加一个image，用来显示食物列表（左）
-    self.root.bg.prefabbg = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))
-        local interval_left = 60
-        local interval_bottom = 40    
-        local width_prefabbg=width/2-2*interval_left
-        local height_prefabbg=height-2*interval_bottom
-        self.root.bg.prefabbg:SetSize(width_prefabbg,height_prefabbg)    
-        local x_prefabbg=-width/4
-        local y_prefabbg=0
-        --local x_prefabbg=-width/4+interval_left
-        --local y_prefabbg=-height/8+interval_bottom
-        self.root.bg.prefabbg:SetPosition(x_prefabbg, y_prefabbg)
-        print("self.root.bg.prefabbg:SetPosition:"..tostring(x_prefabbg)..","..tostring(y_prefabbg))
-            --添加搜索框
-            self.root.bg.prefabbg.searchbg=self.root.bg.prefabbg:AddChild(Image("images/global_redux.xml", "menu_focus.tex"))
-                local width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
-                local scale_x = math.min(1, width_prefabbg*.75 / width_searchbg)
-                local scale_y = math.min(1, height_prefabbg*.75 / height_searchbg)
-                self.root.bg.prefabbg.searchbg:SetSize(scale_x*width_searchbg, scale_y*height_searchbg)
-                width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
-                local x_searchbg=-width_prefabbg/2+width_searchbg/2
-                local y_searchbg=height_prefabbg/2-height_searchbg/2
-                self.root.bg.prefabbg.searchbg:SetPosition(x_searchbg, y_searchbg)
-                    local x_searchtext=x_searchbg
-                    local y_searchtext=y_searchbg
-                    self.root.bg.prefabbg.searchbg.searchtext = self.root.bg.prefabbg:AddChild( TextEdit( NEWFONT, 48, "" ) )
-                    self.root.bg.prefabbg.searchbg.searchtext:SetPosition(x_searchtext, y_searchtext)
-                    self.root.bg.prefabbg.searchbg.searchtext:SetRegionSize( width_searchbg,height_searchbg )--width_prefablist-width_searchbt, height_searchbt
-                    self.root.bg.prefabbg.searchbg.searchtext.OnTextEntered = function()               
-                        self.prefab=self.root.bg.prefabbg.searchbg.searchtext:GetString()
-                        print("self.root.bg.searchbg.searchtext.OnTextEntered: "..self.prefab)
-                    end
-                    self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_CANCEL, true)
-                    self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_MENU_MISC_2, true)
-                    self.root.bg.prefabbg.searchbg.searchtext:SetEditing(true)
-                    self.root.bg.prefabbg.searchbg.searchtext:SetForceEdit(true)
-            --添加搜索按钮
-            self.root.bg.prefabbg.searchbt = self.root.bg.prefabbg:AddChild(TextButton())
-                local width_searchbt,height_searchbt=self.root.bg.prefabbg.searchbt:GetSize()
-                local x_searchbt=x_searchbg+width_searchbg/2+width_searchbt/2+40
-                local y_searchbt=y_searchbg
-                --self.searchbarbutton_width = self.searchbarbutton.text:GetRegionSize()
-                --self.searchbarbutton.image:SetSize(self.searchbarbutton_width * .9, self.search_fontsize)
-                --self.searchbarbutton_posx = self.searchbar_width * .5 - self.searchbarbutton_width * .5 + 10
-                self.root.bg.prefabbg.searchbt:SetPosition(x_searchbt, y_searchbt)    
-                self.root.bg.prefabbg.searchbt:SetFont(NEWFONT)
-                self.root.bg.prefabbg.searchbt:SetTextSize(48)
-                self.root.bg.prefabbg.searchbt:SetColour(0,0,0,1)
-                self.root.bg.prefabbg.searchbt:SetText("搜索")
-                self.root.bg.prefabbg.searchbt:SetTooltip("点击搜索！")
-                self.root.bg.prefabbg.searchbt:SetOnClick( function()
-                    print("self.root.bg.searchbt:SetOnClick"..self.prefab)
-                    self.title="searchprefab"
-                    self.buildlist(self.title)
-                    end)
-            --添加
-            self.root.bg.prefabbg.prefablist = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))        
-                local width_prefablist=width_prefabbg
-                local height_prefablist=height_prefabbg*3/4    
-                self.root.bg.prefabbg.prefablist:SetSize(width_prefablist,height_prefablist)
-                local x_prefablist=0
-                local y_prefablist=-height_prefabbg/8
-                self.root.bg.prefabbg.prefablist:SetPosition(x_prefablist, y_prefablist)
-                print("self.root.bg.prefabbg.prefablist:SetPosition:"..tostring(0)..","..tostring(0))
-                self.root.bg.prefabbg.prefablist:SetScale(.99,.99)
-                self.root.bg.prefabbg.prefablist.listslot = {}
-                self:buildlist("ingredient") 
-                --print(width_prefablist,height_prefablist)       
-            --添加line1(左)
-            self.root.bg.prefabbg.line1 = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line.tex"))
-                local width_bgline1,height_bgline1=self.root.bg.prefabbg.line1:GetSize()
-                local x_bgline1=x_prefablist
-                local y_bgline1=y_prefablist+height_prefablist/2
-                self.root.bg.prefabbg.line1:SetPosition(x_bgline1,y_bgline1)
-            --添加line2(左)
-            self.root.bg.prefabbg.line2 = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line.tex"))
-                local width_bgline2,height_bgline2=self.root.bg.prefabbg.line2:GetSize()
-                local x_bgline2=x_bgline1
-                local y_bgline2=y_prefablist-height_prefablist/2
-                self.root.bg.prefabbg.line2:SetPosition(x_bgline2,y_bgline2)
-                self.root.bg.prefabbg.line2:SetRotation(180)                   
     -- 添加一个背景，用来显示食物信息（右）
     self.root.bg.foodinfo = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex")) 
         --local width_foodinfo,height_foodinfo=self.root.bg.foodinfo:GetSize()
+        local interval_left = 60
+        local interval_bottom = 40  
         local width_foodinfo=width/2-2*interval_left
         local height_foodinfo=height-2*interval_bottom
         self.root.bg.foodinfo:SetSize(width_foodinfo,height_foodinfo) 
@@ -313,6 +234,85 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 self.root.bg.foodinfo.corner2:SetScale(.8,.8)
                 self.root.bg.foodinfo.corner2:SetPosition(x_corner2,y_corner2)
                 self.root.bg.foodinfo.corner2:SetRotation(-90)
+    -- 添加一个image，用来显示食物列表（左）
+    self.root.bg.prefabbg = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))  
+        local width_prefabbg=width/2-2*interval_left
+        local height_prefabbg=height-2*interval_bottom
+        self.root.bg.prefabbg:SetSize(width_prefabbg,height_prefabbg)    
+        local x_prefabbg=-width/4
+        local y_prefabbg=0
+        --local x_prefabbg=-width/4+interval_left
+        --local y_prefabbg=-height/8+interval_bottom
+        self.root.bg.prefabbg:SetPosition(x_prefabbg, y_prefabbg)
+        print("self.root.bg.prefabbg:SetPosition:"..tostring(x_prefabbg)..","..tostring(y_prefabbg))
+            --添加搜索框
+            self.root.bg.prefabbg.searchbg=self.root.bg.prefabbg:AddChild(Image("images/global_redux.xml", "menu_focus.tex"))
+                local width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
+                local scale_x = math.min(1, width_prefabbg*.75 / width_searchbg)
+                local scale_y = math.min(1, height_prefabbg*.75 / height_searchbg)
+                self.root.bg.prefabbg.searchbg:SetSize(scale_x*width_searchbg, scale_y*height_searchbg)
+                width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
+                local x_searchbg=-width_prefabbg/2+width_searchbg/2
+                local y_searchbg=height_prefabbg/2-height_searchbg/2
+                self.root.bg.prefabbg.searchbg:SetPosition(x_searchbg, y_searchbg)
+                    local x_searchtext=x_searchbg
+                    local y_searchtext=y_searchbg
+                    self.root.bg.prefabbg.searchbg.searchtext = self.root.bg.prefabbg:AddChild( TextEdit( NEWFONT, 48, "" ) )
+                    self.root.bg.prefabbg.searchbg.searchtext:SetPosition(x_searchtext, y_searchtext)
+                    self.root.bg.prefabbg.searchbg.searchtext:SetRegionSize( width_searchbg,height_searchbg )--width_prefablist-width_searchbt, height_searchbt
+                    self.root.bg.prefabbg.searchbg.searchtext.OnTextEntered = function()               
+                        self.prefab=self.root.bg.prefabbg.searchbg.searchtext:GetString()
+                        print("self.root.bg.searchbg.searchtext.OnTextEntered: "..self.prefab)
+                    end
+                    self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_CANCEL, true)
+                    self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_MENU_MISC_2, true)
+                    self.root.bg.prefabbg.searchbg.searchtext:SetEditing(true)
+                    self.root.bg.prefabbg.searchbg.searchtext:SetForceEdit(true)
+            --添加搜索按钮
+            self.root.bg.prefabbg.searchbt = self.root.bg.prefabbg:AddChild(TextButton())
+                local width_searchbt,height_searchbt=self.root.bg.prefabbg.searchbt:GetSize()
+                local x_searchbt=x_searchbg+width_searchbg/2+width_searchbt/2+40
+                local y_searchbt=y_searchbg
+                --self.searchbarbutton_width = self.searchbarbutton.text:GetRegionSize()
+                --self.searchbarbutton.image:SetSize(self.searchbarbutton_width * .9, self.search_fontsize)
+                --self.searchbarbutton_posx = self.searchbar_width * .5 - self.searchbarbutton_width * .5 + 10
+                self.root.bg.prefabbg.searchbt:SetPosition(x_searchbt, y_searchbt)    
+                self.root.bg.prefabbg.searchbt:SetFont(NEWFONT)
+                self.root.bg.prefabbg.searchbt:SetTextSize(48)
+                self.root.bg.prefabbg.searchbt:SetColour(0,0,0,1)
+                self.root.bg.prefabbg.searchbt:SetText("搜索")
+                self.root.bg.prefabbg.searchbt:SetTooltip("点击搜索！")
+                self.root.bg.prefabbg.searchbt:SetOnClick( function()
+                    print("self.root.bg.searchbt:SetOnClick"..self.prefab)
+                    self.title="searchprefab"
+                    self.buildlist(self.title)
+                    end)
+            --添加
+            self.root.bg.prefabbg.prefablist = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))        
+                local width_prefablist=width_prefabbg
+                local height_prefablist=height_prefabbg*3/4    
+                self.root.bg.prefabbg.prefablist:SetSize(width_prefablist,height_prefablist)
+                local x_prefablist=0
+                local y_prefablist=-height_prefabbg/8
+                self.root.bg.prefabbg.prefablist:SetPosition(x_prefablist, y_prefablist)
+                print("self.root.bg.prefabbg.prefablist:SetPosition:"..tostring(0)..","..tostring(0))
+                self.root.bg.prefabbg.prefablist:SetScale(.99,.99)
+                self.root.bg.prefabbg.prefablist.listslot = {}
+                self:buildlist("ingredient") 
+                --print(width_prefablist,height_prefablist)       
+            --添加line1(左)
+            self.root.bg.prefabbg.line1 = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line.tex"))
+                local width_bgline1,height_bgline1=self.root.bg.prefabbg.line1:GetSize()
+                local x_bgline1=x_prefablist
+                local y_bgline1=y_prefablist+height_prefablist/2
+                self.root.bg.prefabbg.line1:SetPosition(x_bgline1,y_bgline1)
+            --添加line2(左)
+            self.root.bg.prefabbg.line2 = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line.tex"))
+                local width_bgline2,height_bgline2=self.root.bg.prefabbg.line2:GetSize()
+                local x_bgline2=x_bgline1
+                local y_bgline2=y_prefablist-height_prefablist/2
+                self.root.bg.prefabbg.line2:SetPosition(x_bgline2,y_bgline2)
+                self.root.bg.prefabbg.line2:SetRotation(180)                   
 end)
 
 function FoodInfoScreen:buildlist(title)
@@ -342,10 +342,8 @@ function FoodInfoScreen:buildlist(title)
     end
     local listnums=list.name:length()
     local width, height = self.root.bg:GetSize()   
-    
     local width_prefablist,height_prefablist=self.root.bg.prefabbg.prefablist:GetSize()
-    local width_prefab=256
-    local height_prefab=256
+    local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()
     local numsperrow = math.ceil(width_prefablist/width_prefab)
     local numspercol = math.ceil(height_prefablist/height_prefab)
     local numsperpage = numsperrow*numspercol
