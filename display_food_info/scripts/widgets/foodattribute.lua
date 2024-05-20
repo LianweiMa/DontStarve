@@ -17,10 +17,10 @@ local FoodAttributeWidget = Class(Widget, function(self, range, pos, tags)
         local scale_y = math.min(1, (self.h*.25)*.6 / height_foodtypeattribute)
         self.root.foodtypeattribute:SetSize(scale_x*width_foodtypeattribute, scale_y*height_foodtypeattribute)
         width_foodtypeattribute,height_foodtypeattribute=self.root.foodtypeattribute:GetSize()
-        print("foodtypeattribute_wh:"..tostring(width_foodtypeattribute)..","..tostring(height_foodtypeattribute))
+        --print("foodtypeattribute_wh:"..tostring(width_foodtypeattribute)..","..tostring(height_foodtypeattribute))
         local x_foodtypeattribute=-self.w*.5+width_foodtypeattribute*.5
         local y_foodtypeattribute=self.h*.5-height_foodtypeattribute*.5
-        print("foodtypeattribute_pos:"..tostring(x_foodtypeattribute)..","..tostring(y_foodtypeattribute))
+        --print("foodtypeattribute_pos:"..tostring(x_foodtypeattribute)..","..tostring(y_foodtypeattribute))
         self.root.foodtypeattribute:SetPosition(x_foodtypeattribute,y_foodtypeattribute)
         --self.root.foodtypeattribute:SetScale(.8)
     --cooktimeattribute
@@ -63,10 +63,10 @@ local FoodAttributeWidget = Class(Widget, function(self, range, pos, tags)
         local scale_y = math.min(1, (self.h*.25)*.6 / height_perishtimeattribute)
         self.root.perishtimeattribute:SetSize(scale_x*width_perishtimeattribute, scale_y*height_perishtimeattribute)
         width_perishtimeattribute,height_perishtimeattribute=self.root.perishtimeattribute:GetSize()
-        print("perishtimeattribute_wh:"..tostring(width_perishtimeattribute)..","..tostring(height_perishtimeattribute))
+        --print("perishtimeattribute_wh:"..tostring(width_perishtimeattribute)..","..tostring(height_perishtimeattribute))
         local x_perishtimeattribute=x_fruitattribute
         local y_perishtimeattribute=self.h*.5+height_perishtimeattribute*.5
-        print("perishtimeattribute_pos:"..tostring(x_perishtimeattribute)..","..tostring(y_perishtimeattribute))
+        --print("perishtimeattribute_pos:"..tostring(x_perishtimeattribute)..","..tostring(y_perishtimeattribute))
         self.root.perishtimeattribute:SetPosition(x_perishtimeattribute,y_perishtimeattribute)
     --self.root.perishtimeattribute:SetScale(.8)
     --Prohibitattribute
@@ -87,10 +87,10 @@ local FoodAttributeWidget = Class(Widget, function(self, range, pos, tags)
         local scale_y = math.min(1, (self.h*.25)*.6 / height_monsterattribute)
         self.root.monsterattribute:SetSize(scale_x*width_monsterattribute, scale_y*height_monsterattribute)
         width_monsterattribute,height_monsterattribute=self.root.monsterattribute:GetSize()
-        print("monsterattribute_wh:"..tostring(width_monsterattribute)..","..tostring(height_monsterattribute))
+        --print("monsterattribute_wh:"..tostring(width_monsterattribute)..","..tostring(height_monsterattribute))
         local x_monsterattribute=x_fruitattribute
         local y_monsterattribute=-self.h*.5+height_monsterattribute*.5
-        print("monsterattribute_pos:"..tostring(x_monsterattribute)..","..tostring(y_monsterattribute))
+        --print("monsterattribute_pos:"..tostring(x_monsterattribute)..","..tostring(y_monsterattribute))
         self.root.monsterattribute:SetPosition(x_monsterattribute,y_monsterattribute)
         --self.root.monsterattribute:SetScale(.8)
     --sweetenerattribute

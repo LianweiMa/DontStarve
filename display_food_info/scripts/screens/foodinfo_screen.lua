@@ -6,6 +6,8 @@ local Text = require "widgets/text"
 local ImageButton = require "widgets/imagebutton"
 local TextEdit = require "widgets/textedit"
 local TextButton = require "widgets/textbutton"
+local FoodInfoTitle = require("widgets/foodinfotitle")
+local PrefabHHS = require("widgets/prefabHHS")
 local PrefabAttribute = require("widgets/prefabattribute")
 local FoodInfoScreen = Class(Screen, function(self, ower)
     Screen._ctor(self, "FoodInfoScreen") -- 构造函数，创建一个名为"FoodInfoScreen"的屏幕
@@ -19,15 +21,17 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         self.root:SetHAnchor(ANCHOR_MIDDLE)
      --添加一个背景
      local w_hud, h_hud = TheSim:GetScreenSize()
-     print("TheSim:GetScreenSize():"..tostring(w_hud)..","..tostring(h_hud))
+     --print("TheSim:GetScreenSize():"..tostring(w_hud)..","..tostring(h_hud))
      self.root.bg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_bg.tex"))
         self.root.bg:SetPosition(0, 0)
         local width, height = self.root.bg:GetSize()
         local scale_x = math.min(1, w_hud*.75 / (width-100))
         local scale_y = math.min(1, h_hud*.75 / (height-50))
+        local scale = math.min(scale_x,scale_y)
+        print("foodinfo_screen.lua:scale:"..tostring(scale))
         self.root.bg:SetSize(scale_x*width, scale_y*height)
         width, height = self.root.bg:GetSize()
-        print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
+        --print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
         local x=0
         local y=height/2-10  
     --添加imagebutton，用来显示食材
@@ -78,9 +82,15 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         self.root.bg.foodinfo:SetScale(.99,.99)
         local x_gap = 10    
         local y_gap = 40
-        local fontsize = 64
+        local fontsize = 30
             --title
-            self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
+            self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(FoodInfoTitle(NEWFONT, scale))
+            local width_title,height_title=self.root.bg.foodinfo.title:GetSize()
+            local x_title=0
+            local y_title=height_foodinfo/2-height_title/2
+            --print(x_title,y_title)
+            self.root.bg.foodinfo.title:SetPosition(x_title,y_title)
+            --[[self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
                 local width_title,height_title=self.root.bg.foodinfo.title:GetSize()
                 local x_title=0
                 local y_title=height_foodinfo/2-height_title/2
@@ -98,9 +108,16 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 local y_breakline=y_title-height_title/2
                 --print(x_breakline,y_breakline)
                 self.root.bg.foodinfo.breakline:SetPosition(x_breakline,y_breakline)
-                self.root.bg.foodinfo.breakline:SetRotation(180)
+                self.root.bg.foodinfo.breakline:SetRotation(180)]]
             --prefab
-            self.root.bg.foodinfo.prefab = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_known.tex"))
+            local prefab_range={w=width_foodinfo,h=height_foodinfo*.3}
+            self.root.bg.foodinfo.prefab = self.root.bg.foodinfo:AddChild(PrefabHHS(prefab_range,NEWFONT,fontsize))
+            local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()         
+            local x_prefab = 0
+            local y_prefab=y_title-height_title*.5-height_prefab*.5
+            print("pos_prefab:"..tostring(x_prefab)..","..tostring(y_prefab))
+            self.root.bg.foodinfo.prefab:SetPosition(x_prefab,y_prefab)
+            --[[self.root.bg.foodinfo.prefab = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_known.tex"))
                 local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()         
                 local x_prefab = -width_foodinfo/2+width_prefab/2
                 local y_prefab=y_breakline-height_prefab/2-height_breakline/2
@@ -180,10 +197,10 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 local x_shortline=x_hunger
                 local y_shortline=y_hunger-height_hunger/2-height_textbg/2-height_shortline/2
                 self.root.bg.foodinfo.shortline:SetPosition(x_shortline,y_shortline)
-                --self.root.bg.foodinfo.shortline:SetScale(.8)
+                --self.root.bg.foodinfo.shortline:SetScale(.8)]]
             --attribute
-            local range={w=width_foodinfo,h=height_foodinfo-height_title-height_breakline-height_prefab}
-            local pos={x=0,y=-height_foodinfo*.5+range.h*.5}
+            local range_attribute={w=width_foodinfo,h=height_foodinfo-height_title-height_prefab}
+            local pos={x=0,y=y_prefab-height_prefab*.5-range_attribute.h*.5}
             local tags={
                 fruit={name=nil,value=nil},
                 precook={name=nil,value=nil},
@@ -194,7 +211,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 monster={name=nil,value=nil},
                 sweetener={name=nil,value=nil},
             }
-            self.root.bg.foodinfo.attribute = self.root.bg.foodinfo:AddChild(PrefabAttribute(range,pos,tags))
+            self.root.bg.foodinfo.attribute = self.root.bg.foodinfo:AddChild(PrefabAttribute(range_attribute,pos,tags))
             --corner1
             self.root.bg.foodinfo.corner1 = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_corner_decoration.tex"))
                 local width_corner1,height_corner1=self.root.bg.foodinfo.corner1:GetSize()
@@ -258,7 +275,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             local x_prefabbg=-width/4+width_nextpage/2
             local y_prefabbg=0
             self.root.bg.prefabbg:SetPosition(x_prefabbg, y_prefabbg)
-            print("self.root.bg.prefabbg:SetPosition:"..tostring(x_prefabbg)..","..tostring(y_prefabbg))
+            --print("self.root.bg.prefabbg:SetPosition:"..tostring(x_prefabbg)..","..tostring(y_prefabbg))
         --添加搜索框
         self.root.bg.prefabbg.searchbg=self.root.bg.prefabbg:AddChild(Image("images/textboxes.xml", "textbox2_gold.tex"))
             local width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
@@ -276,7 +293,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 self.root.bg.prefabbg.searchbg.searchtext:SetRegionSize( width_searchbg,height_searchbg )--width_prefablist-width_searchbt, height_searchbt
                 self.root.bg.prefabbg.searchbg.searchtext.OnTextEntered = function()               
                     self.prefab=self.root.bg.prefabbg.searchbg.searchtext:GetString()
-                    print("self.root.bg.searchbg.searchtext.OnTextEntered: "..self.prefab)
+                    --print("self.root.bg.searchbg.searchtext.OnTextEntered: "..self.prefab)
                 end
                 self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_CANCEL, true)
                 self.root.bg.prefabbg.searchbg.searchtext:SetPassControlToScreen(CONTROL_MENU_MISC_2, true)
@@ -315,7 +332,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             end)]]  
             self.root.bg.prefabbg.searchbt:SetOnClick( function()
                 self.prefab=self.root.bg.prefabbg.searchbg.searchtext:GetString()
-                print("self.root.bg.searchbt:SetOnClick"..self.prefab)
+                --print("self.root.bg.searchbt:SetOnClick"..self.prefab)
                 self.title="searchprefab"
                 self:buildlist(self.title)
                 end)
@@ -344,7 +361,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             local x_prefablist=0
             local y_prefablist=(y_bgline1+y_bgline2)/2
             self.root.bg.prefabbg.prefablist:SetPosition(x_prefablist, y_prefablist)
-            print("self.root.bg.prefabbg.prefablist:SetPosition:"..tostring(0)..","..tostring(0))
+            --print("self.root.bg.prefabbg.prefablist:SetPosition:"..tostring(0)..","..tostring(0))
             self.root.bg.prefabbg.prefablist:SetScale(.99,.99)
             self.root.bg.prefabbg.prefablist.listslot = {}
             self:buildlist("ingredient") 
@@ -367,10 +384,10 @@ function FoodInfoScreen:buildlist(title)
         local list_food=tools.GetFoodList()
         local item = self.prefab
         if item~="" then
-            print("self.prefab:"..item)
-            print("list_ingredient.name:length():"..tostring(list_ingredient.name.en:length()))
+            --print("self.prefab:"..item)
+            --print("list_ingredient.name:length():"..tostring(list_ingredient.name.en:length()))
             for j = 1, list_ingredient.name.en:length() do
-                print(tostring(j)..":list_ingredient.name[j]:"..list_ingredient.name.en[j])
+                --print(tostring(j)..":list_ingredient.name[j]:"..list_ingredient.name.en[j])
                 if string.find(list_ingredient.name.zh[j], item) or string.find(list_ingredient.name.en[j], item) then
                     list.name.zh:add(list_ingredient.name.zh[j])
                     list.name.en:add(list_ingredient.name.en[j])
@@ -378,7 +395,7 @@ function FoodInfoScreen:buildlist(title)
                     list.tag.hunger:add(list_ingredient.tag.hunger[j])
                     list.tag.sanity:add(list_ingredient.tag.sanity[j])
                     list.tag.type:add(list_ingredient.tag.type[j])
-                    print(tostring(j)..":"..list_ingredient.name.en[j])
+                    --print(tostring(j)..":"..list_ingredient.name.en[j])
                 end               
             end
             for j = 1, list_food.name.en:length() do
@@ -389,11 +406,11 @@ function FoodInfoScreen:buildlist(title)
                     list.tag.hunger:add(list_food.tag.hunger[j])
                     list.tag.sanity:add(list_food.tag.sanity[j])
                     list.tag.type:add(list_food.tag.type[j])
-                    print(tostring(j)..":"..list_food.name.en[j])
+                    --print(tostring(j)..":"..list_food.name.en[j])
                 end
             end    
         end 
-        print("self.prefab为空！")           
+        --print("self.prefab为空！")           
     end
     local listnums=list.name.en:length()
     local width, height = self.root.bg:GetSize()   
@@ -403,8 +420,8 @@ function FoodInfoScreen:buildlist(title)
     local numspercol = math.ceil(height_prefablist/height_prefab)
     local numsperpage = numsperrow*numspercol
     self.maxpage = math.ceil(listnums/numsperpage)
-    print("self.root.bg.prefabbg.prefablist:GetSize():"..tostring(width_prefablist)..","..tostring(width_prefablist))
-    print("row,col:"..tostring(numsperrow)..","..tostring(numspercol))
+    --print("self.root.bg.prefabbg.prefablist:GetSize():"..tostring(width_prefablist)..","..tostring(width_prefablist))
+    --print("row,col:"..tostring(numsperrow)..","..tostring(numspercol))
     local x = -width_prefablist/2
     local y = height_prefablist/2
     --print(x,y)
@@ -422,7 +439,8 @@ function FoodInfoScreen:buildlist(title)
 	        --self.root.bg.prefabbg.prefablist.listslot[i]:SetFocusScale(.8,.8,1)
             --self.root.bg.prefabbg.prefablist.listslot[i]:ScaleTo(.85,.85,1)
 	        self.root.bg.prefabbg.prefablist.listslot[i]:SetOnGainFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.7,.7) end)
-		    self.root.bg.prefabbg.prefablist.listslot[i]:SetOnLoseFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.65,.65) end)              
+		    self.root.bg.prefabbg.prefablist.listslot[i]:SetOnLoseFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.65,.65) end)
+        
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages.xml",list.name.en[i]..".tex"))    
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages1.xml",list.name.en[i]..".tex"))
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages2.xml",list.name.en[i]..".tex"))

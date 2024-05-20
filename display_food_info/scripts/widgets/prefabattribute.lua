@@ -4,10 +4,10 @@ local PrefabAttributeWidget = Class(Widget, function(self, range, pos, tags)
     Widget._ctor(self, "PrefabAttributeWidget")
     self.w=range.w
     self.h=range.h
-    print("range_wh:"..tostring(self.w)..","..tostring(self.h))
+    --print("range_wh:"..tostring(self.w)..","..tostring(self.h))
     self.x=pos.x
     self.y=pos.y
-    print("pos:"..tostring(self.x)..","..tostring(self.y))
+    --print("pos:"..tostring(self.x)..","..tostring(self.y))
     self.tags=tags
     --画一个背景
     self.root = self:AddChild(Widget("ROOT"))
@@ -16,18 +16,18 @@ local PrefabAttributeWidget = Class(Widget, function(self, range, pos, tags)
     --fruitattribute
     self.root.fruitattribute = self.root:AddChild(Attribute(NEWFONT, 30, self.tags["fruit"].name or "fruit", tostring(self.tags["fruit"].value) or "?"))
         local width_fruitattribute,height_fruitattribute=self.root.fruitattribute:GetSize()
-        print("src_fruitattribute_wh:"..tostring(width_fruitattribute)..","..tostring(height_fruitattribute))
+        --print("src_fruitattribute_wh:"..tostring(width_fruitattribute)..","..tostring(height_fruitattribute))
         local scale_x = math.min(1, (self.w*.5)*s / width_fruitattribute)
         local scale_y = math.min(1, (self.h*.25)*s / height_fruitattribute)
         local scale=math.min(scale_x,scale_y)
-        print("scale:"..tostring(scale))
+        --print("scale:"..tostring(scale))
         self.root.fruitattribute:SetScale(scale)
         --self.root.fruitattribute:SetSize(scale*width_fruitattribute, scale*height_fruitattribute)
         width_fruitattribute,height_fruitattribute=self.root.fruitattribute:GetSize()
-        print("fruitattribute_wh:"..tostring(width_fruitattribute)..","..tostring(height_fruitattribute))
+        --print("fruitattribute_wh:"..tostring(width_fruitattribute)..","..tostring(height_fruitattribute))
         local x_fruitattribute=-self.w*.5+width_fruitattribute*.5
         local y_fruitattribute=self.h*.5-height_fruitattribute*.5
-        print("fruitattribute_pos:"..tostring(x_fruitattribute)..","..tostring(y_fruitattribute))
+        --print("fruitattribute_pos:"..tostring(x_fruitattribute)..","..tostring(y_fruitattribute))
         self.root.fruitattribute:SetPosition(x_fruitattribute,y_fruitattribute)
         --self.root.fruitattribute:SetScale(.8)
     --precookattribute
@@ -78,10 +78,10 @@ local PrefabAttributeWidget = Class(Widget, function(self, range, pos, tags)
         self.root.veggieattribute:SetScale(scale)
         --self.root.veggieattribute:SetSize(scale*width_veggieattribute, scale*height_veggieattribute)
         width_veggieattribute,height_veggieattribute=self.root.veggieattribute:GetSize()
-        print("veggieattribute_wh:"..tostring(width_veggieattribute)..","..tostring(height_veggieattribute))
+        --print("veggieattribute_wh:"..tostring(width_veggieattribute)..","..tostring(height_veggieattribute))
         local x_veggieattribute=x_fruitattribute
         local y_veggieattribute=-height_veggieattribute*.5
-        print("veggieattribute_pos:"..tostring(x_veggieattribute)..","..tostring(y_veggieattribute))
+        --print("veggieattribute_pos:"..tostring(x_veggieattribute)..","..tostring(y_veggieattribute))
         self.root.veggieattribute:SetPosition(x_veggieattribute,y_veggieattribute)
     --self.root.veggieattribute:SetScale(.8)
     --eggattribute
@@ -106,10 +106,10 @@ local PrefabAttributeWidget = Class(Widget, function(self, range, pos, tags)
         self.root.monsterattribute:SetScale(scale)
         --self.root.monsterattribute:SetSize(scale*width_monsterattribute, scale*height_monsterattribute)
         width_monsterattribute,height_monsterattribute=self.root.monsterattribute:GetSize()
-        print("monsterattribute_wh:"..tostring(width_monsterattribute)..","..tostring(height_monsterattribute))
+        --print("monsterattribute_wh:"..tostring(width_monsterattribute)..","..tostring(height_monsterattribute))
         local x_monsterattribute=x_fruitattribute
         local y_monsterattribute=-self.h*.25-height_monsterattribute*.5
-        print("monsterattribute_pos:"..tostring(x_monsterattribute)..","..tostring(y_monsterattribute))
+        --print("monsterattribute_pos:"..tostring(x_monsterattribute)..","..tostring(y_monsterattribute))
         self.root.monsterattribute:SetPosition(x_monsterattribute,y_monsterattribute)
         --self.root.monsterattribute:SetScale(.8)
     --sweetenerattribute

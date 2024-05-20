@@ -22,10 +22,10 @@ GLOBAL.TheInput:AddKeyHandler(function(key, down)
     -- 检查按下的键是否是 F3 键
    if (key == GLOBAL.KEY_F3 and not down) then
         local screen = TheFrontEnd:GetActiveScreen()    
-        print("screen name : "..screen.name)  
+        --print("screen name : "..screen.name)  
         -- End if we can't find the screen name (e.g. asleep)
         if not screen or not screen.name then 
-            print("not screen or not screen.name")
+            --print("not screen or not screen.name")
             return true 
         end
         -- If the hud exists, open the UI
