@@ -40,18 +40,18 @@ local PrefabHHSWidget = Class(Widget, function(self, range, fonttype, fontsize)
     local width_attribute,height_attribute=self.root.attribute:GetSize()
 
     local width=gap_x+width_prefab+gap_x+math.max((width_health+gap_x+width_hunger+gap_x+width_sanity+gap_x),width_attribute)
-    local height=math.max(height_prefab,math.max(math.max(height_health,height_hunger),height_sanity)+height_attribute+gap_y)
+    --local height=math.max(height_prefab,math.max(math.max(height_health,height_hunger),height_sanity)+height_attribute+gap_y)
     --print("prefabHHS.lua:wh:"..tostring(width)..","..tostring(height))
-    local scale_x=1
-    local scale_y=1
+    local scale=1
+    --local scale_y=1
     if width>self.w then
-        scale_x=self.w/width
+        scale=self.w/width
     end
-    if height>self.h then
+    --[[if height>self.h then
         scale_y=self.h/height
-    end
-    local scale=math.min(scale_x,scale_y)
-    --print("prefabHHS.lua:scale:"..tostring(scale))
+    end]]
+    --local scale=math.min(scale_x,scale_y)
+    print("prefabHHS.lua:scale:"..tostring(scale))
     width=gap_x+width_prefab*scale+gap_x+math.max((width_health*scale*scale+gap_x+width_hunger*scale*scale+gap_x+width_sanity*scale*scale+gap_x),width_attribute*scale)
     --prefab
     self.root.prefab:SetScale(scale,scale)
@@ -190,6 +190,10 @@ end
 
 function PrefabHHSWidget:SetSanityColour(colour)
     self.root.sanity:SetColour(colour)
+end
+
+function PrefabHHSWidget:SetScale(scale)
+    self.root.prefab.img:SetScale(scale,scale)
 end
 
 return PrefabHHSWidget

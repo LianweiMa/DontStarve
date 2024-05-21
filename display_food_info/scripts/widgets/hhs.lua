@@ -20,15 +20,16 @@ function HHSWidget:Init()
     self.root:KillAllChildren()
     --hhs            
     self.root.hhs = self.root:AddChild(Image(self.alts, self.tex))--"images/global_redux.xml", "status_hunger.tex"
-    local att_gap=10
-    local hhs_fontsize=48
+    --local att_gap=10
+    --local hhs_fontsize=48
     local width_hhs,height_hhs=self.root.hhs:GetSize()
-    --print("hhs.lua:self.root.hhs:src_wh:"..tostring(width_hhs)..","..tostring(height_hhs))
+    print("hhs.lua:self.root.hhs:src_wh:"..tostring(width_hhs)..","..tostring(height_hhs))
     --local scale = math.min(1, (width_foodinfo-width_prefab)*.6 / ((width_hhs-att_gap)*3))
     self.root.hhs:SetSize(self.scale*width_hhs, self.scale*height_hhs)
+    print("hhs.lua:scale:"..tostring(self.scale))
     --self.root.hhs:SetScale(self.scale, self.scale)
     width_hhs,height_hhs=self.root.hhs:GetSize()
-    --print("hhs.lua:self.root.hhs:scale_wh:"..tostring(width_hhs)..","..tostring(height_hhs))
+    print("hhs.lua:self.root.hhs:scale_wh:"..tostring(width_hhs)..","..tostring(height_hhs))
     --width_hhs,height_hhs=self.root.hhs:GetSize()
     --print("scale:"..tostring(scale).."hhs:"..tostring(width_hhs)..tostring(height_hhs))
     local x_hhs = 0

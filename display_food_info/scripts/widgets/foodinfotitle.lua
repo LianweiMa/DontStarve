@@ -15,7 +15,7 @@ local FoodInfoTitleWidget = Class(Widget, function(self, range, fonttype, scale)
     --self.root:SetPosition(self.x,self.y)
     --title
     self.root.titlebg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
-    self.root.titlebg:SetScale(self.scale*.5,self.scale*.5)
+    self.root.titlebg:SetScale(self.scale,self.scale)
     local width_titlebg,height_titlebg=self.root.titlebg:GetScaledSize()
     --print("foodinfotitle.lua:self.root.titlebg:size:"..tostring(width_titlebg)..","..tostring(height_titlebg))
     local x_title=0
