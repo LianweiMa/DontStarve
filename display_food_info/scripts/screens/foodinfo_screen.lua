@@ -31,7 +31,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         print("foodinfo_screen.lua:scale:"..tostring(scale))
         self.root.bg:SetSize(scale_x*width, scale_y*height)
         width, height = self.root.bg:GetSize()
-        --print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
+        print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
         local x=0
         local y=height/2-10  
     --添加imagebutton，用来显示食材
@@ -84,10 +84,11 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         local y_gap = 40
         local fontsize = 30
             --title
-            self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(FoodInfoTitle(NEWFONT, scale))
-            local width_title,height_title=self.root.bg.foodinfo.title:GetSize()
+            local title_range={w=width_foodinfo,h=nil}
+            self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(FoodInfoTitle(title_range, NEWFONT, scale))
+            local width_title,height_title=self.root.bg.foodinfo.title:GetScaledSize()
             local x_title=0
-            local y_title=height_foodinfo/2-height_title/2
+            local y_title=height_foodinfo/2-height_title/2+20--------------------------------------------------------------------------------------------
             --print(x_title,y_title)
             self.root.bg.foodinfo.title:SetPosition(x_title,y_title)
             --[[self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
@@ -112,9 +113,9 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             --prefab
             local prefab_range={w=width_foodinfo,h=height_foodinfo*.3}
             self.root.bg.foodinfo.prefab = self.root.bg.foodinfo:AddChild(PrefabHHS(prefab_range,NEWFONT,fontsize))
-            local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()         
+            local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()
             local x_prefab = 0
-            local y_prefab=y_title-height_title*.5-height_prefab*.5
+            local y_prefab=y_title-height_title*.5-height_prefab*.5-20-----------------------------------------------------------------------------------------------
             print("pos_prefab:"..tostring(x_prefab)..","..tostring(y_prefab))
             self.root.bg.foodinfo.prefab:SetPosition(x_prefab,y_prefab)
             --[[self.root.bg.foodinfo.prefab = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_known.tex"))
@@ -200,7 +201,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 --self.root.bg.foodinfo.shortline:SetScale(.8)]]
             --attribute
             local range_attribute={w=width_foodinfo,h=height_foodinfo-height_title-height_prefab}
-            local pos={x=0,y=y_prefab-height_prefab*.5-range_attribute.h*.5}
+            local pos={x=0,y=y_prefab-height_prefab*.5-range_attribute.h*.5-20}-----------------------------------------------------------------------------------------------------------
             local tags={
                 fruit={name=nil,value=nil},
                 precook={name=nil,value=nil},
@@ -214,17 +215,17 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             self.root.bg.foodinfo.attribute = self.root.bg.foodinfo:AddChild(PrefabAttribute(range_attribute,pos,tags))
             --corner1
             self.root.bg.foodinfo.corner1 = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_corner_decoration.tex"))
-                local width_corner1,height_corner1=self.root.bg.foodinfo.corner1:GetSize()
+            self.root.bg.foodinfo.corner1:SetScale(scale*.8,scale*.8)    
+            local width_corner1,height_corner1=self.root.bg.foodinfo.corner1:GetScaledSize()
                 local x_corner1=-width_foodinfo/2+width_corner1/2
-                local y_corner1=-height_foodinfo/2+height_corner1/2
-                self.root.bg.foodinfo.corner1:SetScale(.8,.8)
+                local y_corner1=-height_foodinfo/2+height_corner1/2             
                 self.root.bg.foodinfo.corner1:SetPosition(x_corner1,y_corner1)
             --corner2
             self.root.bg.foodinfo.corner2 = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_corner_decoration.tex"))
-                local width_corner2,height_corner2=self.root.bg.foodinfo.corner2:GetSize()
+                self.root.bg.foodinfo.corner2:SetScale(scale*.8,scale*.8)
+                local width_corner2,height_corner2=self.root.bg.foodinfo.corner2:GetScaledSize()
                 local x_corner2=width_foodinfo/2-width_corner1/2
-                local y_corner2=y_corner1
-                self.root.bg.foodinfo.corner2:SetScale(.8,.8)
+                local y_corner2=y_corner1              
                 self.root.bg.foodinfo.corner2:SetPosition(x_corner2,y_corner2)
                 self.root.bg.foodinfo.corner2:SetRotation(-90)
     -- 添加一个image，用来显示食物列表（左）
@@ -281,14 +282,15 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             local width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
             local scale_x = math.min(1, width_prefabbg*.75 / width_searchbg)
             local scale_y = math.min(1, height_prefabbg*.75 / height_searchbg)
-            self.root.bg.prefabbg.searchbg:SetSize(scale_x*width_searchbg, scale_y*height_searchbg)
+            local scale_searchbg=math.min(scale_x,scale_y)
+            self.root.bg.prefabbg.searchbg:SetSize(scale_searchbg*width_searchbg, scale_searchbg*height_searchbg)
             width_searchbg,height_searchbg=self.root.bg.prefabbg.searchbg:GetSize()
             local x_searchbg=-width_prefabbg/2+width_searchbg/2
             local y_searchbg=height_prefabbg/2-height_searchbg/2
             self.root.bg.prefabbg.searchbg:SetPosition(x_searchbg, y_searchbg)
                 local x_searchtext=x_searchbg
                 local y_searchtext=y_searchbg
-                self.root.bg.prefabbg.searchbg.searchtext = self.root.bg.prefabbg:AddChild( TextEdit( NEWFONT, 48, "" ) )
+                self.root.bg.prefabbg.searchbg.searchtext = self.root.bg.prefabbg:AddChild( TextEdit( NEWFONT, height_searchbg, "" ) )
                 self.root.bg.prefabbg.searchbg.searchtext:SetPosition(x_searchtext, y_searchtext)
                 self.root.bg.prefabbg.searchbg.searchtext:SetRegionSize( width_searchbg,height_searchbg )--width_prefablist-width_searchbt, height_searchbt
                 self.root.bg.prefabbg.searchbg.searchtext.OnTextEntered = function()               
@@ -300,10 +302,9 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 self.root.bg.prefabbg.searchbg.searchtext:SetEditing(true)
                 self.root.bg.prefabbg.searchbg.searchtext:SetForceEdit(true)
         --添加搜索按钮
-        local searchbt_fontsize=48
         self.root.bg.prefabbg.searchbt = self.root.bg.prefabbg:AddChild(TextButton())
             self.root.bg.prefabbg.searchbt:SetFont(NEWFONT)
-            self.root.bg.prefabbg.searchbt:SetTextSize(searchbt_fontsize)
+            self.root.bg.prefabbg.searchbt:SetTextSize(height_searchbg)
             self.root.bg.prefabbg.searchbt:SetColour(0,0,0,1)
             self.root.bg.prefabbg.searchbt:SetText("搜索")
             self.root.bg.prefabbg.searchbt:SetTooltip("点击搜索！")           
@@ -343,14 +344,14 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             self.root.bg.prefabbg.line1:SetSize(scale_line*width_bgline1, scale_line*height_bgline1)
             width_bgline1,height_bgline1=self.root.bg.prefabbg.line1:GetSize()
             local x_bgline1=0
-            local y_bgline1=y_searchbg-height_searchbg/2-height_bgline1/2-10
+            local y_bgline1=y_searchbg-height_searchbg/2-height_bgline1/2
             self.root.bg.prefabbg.line1:SetPosition(x_bgline1,y_bgline1)
         --添加line2(左)
         self.root.bg.prefabbg.line2 = self.root.bg.prefabbg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line.tex"))
             self.root.bg.prefabbg.line2:SetSize(width_bgline1, height_bgline1)
             local width_bgline2,height_bgline2=self.root.bg.prefabbg.line2:GetSize()
             local x_bgline2=x_bgline1
-            local y_bgline2=-height_prefabbg/2+height_bgline2/2
+            local y_bgline2=-height_prefabbg/2+height_bgline2/2-10
             self.root.bg.prefabbg.line2:SetPosition(x_bgline2,y_bgline2)
             self.root.bg.prefabbg.line2:SetRotation(180) 
         --添加prefablist
@@ -415,31 +416,40 @@ function FoodInfoScreen:buildlist(title)
     local listnums=list.name.en:length()
     local width, height = self.root.bg:GetSize()   
     local width_prefablist,height_prefablist=self.root.bg.prefabbg.prefablist:GetSize()
-    local width_prefab,height_prefab=self.root.bg.foodinfo.prefab:GetSize()
-    local numsperrow = math.ceil(width_prefablist/width_prefab)
-    local numspercol = math.ceil(height_prefablist/height_prefab)
+    local size_prefab=60
+    local numsperrow = math.ceil(width_prefablist/size_prefab)-1
+    local numspercol = math.ceil(height_prefablist/size_prefab)-1
     local numsperpage = numsperrow*numspercol
     self.maxpage = math.ceil(listnums/numsperpage)
-    --print("self.root.bg.prefabbg.prefablist:GetSize():"..tostring(width_prefablist)..","..tostring(width_prefablist))
-    --print("row,col:"..tostring(numsperrow)..","..tostring(numspercol))
+    local gap_x=(width_prefablist-size_prefab*numsperrow)/numsperrow
+    local gap_y=(height_prefablist-size_prefab*numspercol)/numspercol
+    print("self.root.bg.prefabbg.prefablist:GetSize():"..tostring(width_prefablist)..","..tostring(width_prefablist))
+    print("row,col:"..tostring(numsperrow)..","..tostring(numspercol))
     local x = -width_prefablist/2
     local y = height_prefablist/2
     --print(x,y)
     for i = 1+numsperpage*(self.numpage-1), math.min(listnums, numsperpage*(1+self.numpage-1)) do
         if math.ceil((i-numsperpage*(self.numpage-1))/numsperrow) ~= math.ceil((i-numsperpage*(self.numpage-1)-1)/numsperrow) then 
             x = 0 
-        else x = x + 100 
+        else x = x + gap_x+size_prefab
         end
-        y = -100*(math.ceil((i-numsperpage*(self.numpage-1))/numsperrow)-1)
+        y = -size_prefab*(math.ceil((i-numsperpage*(self.numpage-1))/numsperrow)-1)-gap_y
         self.root.bg.prefabbg.prefablist.listslot[i] = self.root.bg.prefabbg.prefablist:AddChild(ImageButton("images/quagmire_recipebook.xml", "cookbook_known.tex"))
             local width_listslot,height_listlot=self.root.bg.prefabbg.prefablist.listslot[i]:GetSize()
+            local scale_listlot=size_prefab/width_listslot
+	        self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(scale_listlot,scale_listlot)
+            local gainfocus_scalex=(width_listslot*scale_listlot+2*gap_x)/width_listslot
+            local gainfocus_scaley=(height_listlot*scale_listlot+2*gap_y)/height_listlot
+            width_listslot=width_listslot*scale_listlot
+            height_listlot=height_listlot*scale_listlot
+            --(width_listslot+2*gap_x)/width_listslot
+            --(height_listlot+2*gap_y)/height_listlot
             self.root.bg.prefabbg.prefablist.listslot[i]:SetPosition(x-width_prefablist/2+width_listslot/2, y+height_prefablist/2-height_listlot/2)
-	        self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.65,.65)
             --self.root.bg.prefabbg.prefablist.listslot[i]:SetNormalScale(.8,.8,1)
 	        --self.root.bg.prefabbg.prefablist.listslot[i]:SetFocusScale(.8,.8,1)
             --self.root.bg.prefabbg.prefablist.listslot[i]:ScaleTo(.85,.85,1)
-	        self.root.bg.prefabbg.prefablist.listslot[i]:SetOnGainFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.7,.7) end)
-		    self.root.bg.prefabbg.prefablist.listslot[i]:SetOnLoseFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(.65,.65) end)
+	        self.root.bg.prefabbg.prefablist.listslot[i]:SetOnGainFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(gainfocus_scalex,gainfocus_scaley) end)
+		    self.root.bg.prefabbg.prefablist.listslot[i]:SetOnLoseFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(scale_listlot,scale_listlot) end)
         
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages.xml",list.name.en[i]..".tex"))    
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages1.xml",list.name.en[i]..".tex"))
@@ -460,30 +470,30 @@ function FoodInfoScreen:buildlist(title)
             --local width_title,height_title=self.root.bg.foodinfo.title:GetSize()
             self.root.bg.foodinfo.title:SetTexture("images/quagmire_recipebook.xml", "blank.tex")
             --self.root.bg.foodinfo.title:SetSize(width_title,height_title)
-            self.root.bg.foodinfo.title.text:SetString(list.name.zh[i] or list.name.en[i])
-            self.root.bg.foodinfo.prefab.img:SetTexture("images/quagmire_recipebook.xml", "blank.tex")
-            self.root.bg.foodinfo.prefab.img:SetTexture("images/inventoryimages.xml",list.name.en[i]..".tex")
-            self.root.bg.foodinfo.prefab.img:SetTexture("images/inventoryimages1.xml",list.name.en[i]..".tex")
-            self.root.bg.foodinfo.prefab.img:SetTexture("images/inventoryimages2.xml",list.name.en[i]..".tex")
-            self.root.bg.foodinfo.prefab.img:SetTexture("images/inventoryimages3.xml",list.name.en[i]..".tex")
-            self.root.bg.foodinfo.prefab.img:SetScale(1.5,1.5)
-            self.root.bg.foodinfo.health.textbg.text:SetString(tostring(list.tag.health[i]))
+            self.root.bg.foodinfo.title:SetString(list.name.zh[i] or list.name.en[i])
+            self.root.bg.foodinfo.prefab:SetTexture("images/quagmire_recipebook.xml", "blank.tex")
+            self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages.xml",list.name.en[i]..".tex")
+            self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages1.xml",list.name.en[i]..".tex")
+            self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages2.xml",list.name.en[i]..".tex")
+            self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages3.xml",list.name.en[i]..".tex")
+            --self.root.bg.foodinfo.prefab.img:SetScale(1.5,1.5)
+            self.root.bg.foodinfo.prefab:SetHealthValue(tostring(list.tag.health[i]))
             if(list.tag.health[i]<0) then
-                self.root.bg.foodinfo.health.textbg.text:SetColour({255,0,0,1})
+                self.root.bg.foodinfo.prefab:SetHealthColour({255,0,0,1})
             else
-                self.root.bg.foodinfo.health.textbg.text:SetColour({0,0,0,1})
+                self.root.bg.foodinfo.prefab:SetHealthColour({0,0,0,1})
             end
-            self.root.bg.foodinfo.hunger.textbg.text:SetString(tostring(list.tag.hunger[i]))
+            self.root.bg.foodinfo.prefab:SetHungerValue(tostring(list.tag.hunger[i]))
             if(list.tag.hunger[i]<0) then
-                self.root.bg.foodinfo.hunger.textbg.text:SetColour({255,0,0,1})
+                self.root.bg.foodinfo.prefab:SetHungerColour({255,0,0,1})
             else
-                self.root.bg.foodinfo.hunger.textbg.text:SetColour({0,0,0,1})
+                self.root.bg.foodinfo.prefab:SetHungerColour({0,0,0,1})
             end
-            self.root.bg.foodinfo.sanity.textbg.text:SetString(tostring(list.tag.sanity[i]))
+            self.root.bg.foodinfo.prefab:SetSanityValue(tostring(list.tag.sanity[i]))
             if(list.tag.sanity[i]<0) then
-                self.root.bg.foodinfo.sanity.textbg.text:SetColour({255,0,0,1})
+                self.root.bg.foodinfo.prefab:SetSanityColour({255,0,0,1})
             else
-                self.root.bg.foodinfo.sanity.textbg.text:SetColour({0,0,0,1})
+                self.root.bg.foodinfo.prefab:SetSanityColour({0,0,0,1})
             end
         end)
     end

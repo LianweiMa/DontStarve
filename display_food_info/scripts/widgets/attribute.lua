@@ -23,9 +23,9 @@ function AttributeWidget:Init()
     local _,h_splitline = self.root.splitline:GetSize()
     self.root.splitline:SetPosition(0,0)
     self.root.uptext = self.root:AddChild(Text(self.font, self.fontsize, self.upstring,{0,0,0,1}))
-    self.root.uptext:SetPosition(0,(self.fontsize)*.5)
+    self.root.uptext:SetPosition(0,h_splitline*.5)
     self.root.downtext = self.root:AddChild(Text(self.font, self.fontsize, self.downstring,{0,0,0,1}))
-    self.root.downtext:SetPosition(0,-(self.fontsize)*.5)
+    self.root.downtext:SetPosition(0,-h_splitline*.5)
 end
 
 function AttributeWidget:SetUpText(str)
@@ -38,12 +38,12 @@ end
 
 function AttributeWidget:GetSize()
     local w, h = self.root.splitline:GetSize()
-    return w, h+self.fontsize*2
+    return w, h
 end
 
 function AttributeWidget:GetScaledSize()
     local w, h = self.root.splitline:GetScaledSize()
-    return w, h+self.fontsize*2
+    return w, h
 end
 
 function AttributeWidget:SetSize(w,h)
