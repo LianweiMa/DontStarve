@@ -1,6 +1,7 @@
 local Widget = require "widgets/widget"
 local Image = require "widgets/image"
 local Text = require "widgets/text"
+local TextImage = require("widgets/textimage")
 local FoodInfoTitleWidget = Class(Widget, function(self, range, fonttype, scale)
     Widget._ctor(self, "FoodInfoTitleWidget")
     self.w=range.w
@@ -14,9 +15,12 @@ local FoodInfoTitleWidget = Class(Widget, function(self, range, fonttype, scale)
     self.root = self:AddChild(Widget("ROOT"))
     --self.root:SetPosition(self.x,self.y)
     --title
-    self.root.titlebg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
-    self.root.titlebg:SetScale(self.scale,self.scale)
-    local width_titlebg,height_titlebg=self.root.titlebg:GetScaledSize()
+    self.root.titlebg=self.root:AddChild(TextImage(self.fonttype, "", "images/quagmire_recipebook.xml", "cookbook_missing.tex"))
+    local width_titlebg,height_titlebg=self.root.titlebg:GetSize()
+    self.root.titlebg:SetColour({255,255,255,255})
+    --self.root.titlebg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
+    --self.root.titlebg:SetScale(self.scale,self.scale)
+    --local width_titlebg,height_titlebg=self.root.titlebg:GetScaledSize()
     --print("foodinfotitle.lua:self.root.titlebg:size:"..tostring(width_titlebg)..","..tostring(height_titlebg))
     local x_title=0
     local y_title=0
@@ -28,10 +32,10 @@ local FoodInfoTitleWidget = Class(Widget, function(self, range, fonttype, scale)
     self.root.titlebg.bg:SetSize(width_titlebg,height_titlebg)
     self.root.titlebg.bg:SetPosition(0,0)]]
 
-        self.root.titlebg.text=self.root.titlebg:AddChild(Text(self.fonttype, height_titlebg, ""))
+        --[[self.root.titlebg.text=self.root.titlebg:AddChild(Text(self.fonttype, height_titlebg, ""))
         self.root.titlebg.text:SetColour({255,255,255,255})
         self.root.titlebg.text:SetPosition(0,0)
-        --self.root.titlebg.text:SetScale(.99,.99)
+        --self.root.titlebg.text:SetScale(.99,.99)]]
     --breakline
     self.root.breakline = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line_break.tex"))
         local width_breakline,height_breakline=self.root.breakline:GetSize()

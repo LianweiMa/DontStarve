@@ -81,7 +81,7 @@ local PrefabHHSWidget = Class(Widget, function(self, range, fonttype, fontsize)
         self.root.health:SetScale(scale*scale)
         width_health,height_health=self.root.health:GetSize()
         --print("prefabHHS.lua:self.root.prefab:scaledsize:"..tostring(width_prefab)..","..tostring(height_prefab))
-        local x_health = x_prefab+width_prefab/2+width_health/2+gap_x
+        local x_health = x_prefab+width_prefab/2+width_health/2+gap_x*2
         local y_health = self.h*.5-height_health/2
         --print(x_health,y_health)
         self.root.health:SetPosition(x_health,y_health)        
@@ -139,7 +139,7 @@ local PrefabHHSWidget = Class(Widget, function(self, range, fonttype, fontsize)
     self.root.attribute:SetScale(scale)
     width_attribute,height_attribute=self.root.attribute:GetScaledSize()
     local x_attribute=x_hunger
-    local y_attribute=y_health-height_health*.5-height_attribute*.5-gap_y-10------------------------------------------------------------------
+    local y_attribute=y_health-height_health*.5-height_attribute*.5-gap_y-20------------------------------------------------------------------
     --print(x_sanity,y_sanity)
     self.root.attribute:SetPosition(x_attribute,y_attribute)
     

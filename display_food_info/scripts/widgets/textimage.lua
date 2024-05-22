@@ -29,6 +29,11 @@ function TextImage:GetSize()
     return w,h
 end
 
+function TextImage:GetScaledSize()
+    local w,h=self.root.textbg:GetScaledSize()
+    return w,h
+end
+
 function TextImage:SetPosition(x,y)
     self.root:SetPosition(x,y)
 end
