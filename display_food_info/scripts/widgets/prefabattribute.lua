@@ -126,4 +126,60 @@ local PrefabAttributeWidget = Class(Widget, function(self, range, pos, tags)
         self.root.sweetenerattribute:SetPosition(x_sweetenerattribute,y_sweetenerattribute)
         --self.root.sweetenerattribute:SetScale(.8)
 end)
+
+function PrefabAttributeWidget:SetAttribute(attribute)
+    --[[print("prefabattribute.lua:type:"..type(attribute))
+    for tag,tagval in pairs(attribute)do
+        print("prefabattribute.lua:attribute:"..tag..","..tostring(tagval))
+    end]]
+    self.root.fruitattribute:SetDownText(attribute["fruit"] or "nil")
+    self.root.precookattribute:SetDownText(attribute["precook"] or "nil")
+    self.root.meatattribute:SetDownText(attribute["meat"] or "nil")
+    self.root.fishattribute:SetDownText(attribute["fish"] or "nil")
+    self.root.veggieattribute:SetDownText(attribute["veggie"] or "nil")
+    self.root.eggattribute:SetDownText(attribute["egg"] or "nil")
+    self.root.monsterattribute:SetDownText(attribute["monster"] or "nil") 
+    self.root.sweetenerattribute:SetDownText(attribute["sweetener"] or "nil") 
+    if attribute["fruit"] then       
+        self.root.fruitattribute:SetColour({255,0,0,1})
+    else
+        self.root.fruitattribute:SetColour({0,0,0,1})
+    end
+    if attribute["precook"] then       
+        self.root.precookattribute:SetColour({255,0,0,1})
+    else
+        self.root.precookattribute:SetColour({0,0,0,1})
+    end
+    if attribute["meat"] then        
+        self.root.meatattribute:SetColour({255,0,0,1})
+    else
+        self.root.meatattribute:SetColour({0,0,0,1})
+    end
+    if attribute["fish"] then         
+        self.root.fishattribute:SetColour({255,0,0,1})
+    else
+        self.root.fishattribute:SetColour({0,0,0,1})
+    end
+    if attribute["veggie"] then       
+        self.root.veggieattribute:SetColour({255,0,0,1})
+    else
+        self.root.veggieattribute:SetColour({0,0,0,1})
+    end
+    if attribute["egg"] then       
+        self.root.eggattribute:SetColour({255,0,0,1})
+    else
+        self.root.eggattribute:SetColour({0,0,0,1})
+    end
+    if attribute["monster"] then       
+        self.root.monsterattribute:SetColour({255,0,0,1})
+    else
+        self.root.monsterattribute:SetColour({0,0,0,1})
+    end 
+    if attribute["sweetener"] then        
+        self.root.sweetenerattribute:SetColour({255,0,0,1})
+    else
+        self.root.sweetenerattribute:SetColour({0,0,0,1})
+    end 
+end
+
 return PrefabAttributeWidget

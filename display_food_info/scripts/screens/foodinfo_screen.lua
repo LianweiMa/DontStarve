@@ -28,10 +28,10 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         local scale_x = math.min(1, w_hud*.75 / (width-100))
         local scale_y = math.min(1, h_hud*.75 / (height-50))
         local scale = math.min(scale_x,scale_y)
-        print("foodinfo_screen.lua:scale:"..tostring(scale))
+        --print("foodinfo_screen.lua:scale:"..tostring(scale))
         self.root.bg:SetSize(scale_x*width, scale_y*height)
         width, height = self.root.bg:GetSize()
-        print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
+        --print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
         local x=0
         local y=height/2-10  
     --添加imagebutton，用来显示食材
@@ -88,7 +88,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(FoodInfoTitle(title_range, NEWFONT, scale))
             local width_title,height_title=self.root.bg.foodinfo.title:GetScaledSize()
             local x_title=0
-            local y_title=height_foodinfo/2-height_title/2+20--------------------------------------------------------------------------------------------
+            local y_title=height_foodinfo/2-height_title/2--------------------------------------------------------------------------------------------
             --print(x_title,y_title)
             self.root.bg.foodinfo.title:SetPosition(x_title,y_title)
             --[[self.root.bg.foodinfo.title = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "cookbook_missing.tex"))
@@ -201,7 +201,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 --self.root.bg.foodinfo.shortline:SetScale(.8)]]
             --attribute
             local range_attribute={w=width_foodinfo,h=height_foodinfo-height_title-height_prefab}
-            local pos={x=0,y=y_prefab-height_prefab*.5-range_attribute.h*.5-20}-----------------------------------------------------------------------------------------------------------
+            local pos={x=0,y=y_prefab-height_prefab*.5-range_attribute.h*.5}-----------------------------------------------------------------------------------------------------------
             local tags={
                 fruit={name=nil,value=nil},
                 precook={name=nil,value=nil},
@@ -239,13 +239,13 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         self.root.bg.prefabbg.nextpage = self.root.bg.prefabbg:AddChild(ImageButton("images/ui.xml", "arrow_right.tex"))      
             self.root.bg.prefabbg.nextpage:SetScale(.5,.5)
             local width_nextpage,height_nextpage=self.root.bg.prefabbg.nextpage:GetSize()
-            self.root.bg.prefabbg.nextpage:SetPosition(width_prefabbg*.25+height_nextpage*.25, 0)
-            self.root.bg.prefabbg.nextpage:SetNormalScale(1,1,1)
-            self.root.bg.prefabbg.nextpage:SetFocusScale(1,1,1)
+            self.root.bg.prefabbg.nextpage:SetPosition(width_prefabbg*.5+height_nextpage*.5, 0)
+            --self.root.bg.prefabbg.nextpage:SetNormalScale(1,1,1)
+            --self.root.bg.prefabbg.nextpage:SetFocusScale(1,1,1)
             self.root.bg.prefabbg.nextpage:SetHoverText("下一页")
             self.root.bg.prefabbg.nextpage.image:SetTint(1,1,1,1)
-            self.root.bg.prefabbg.nextpage:SetOnGainFocus(function() self.root.bg.prefabbg.nextpage:ScaleTo(1,1.15,.125) end)
-            self.root.bg.prefabbg.nextpage:SetOnLoseFocus(function() self.root.bg.prefabbg.nextpage:ScaleTo(1.15,1,.25) end)
+            self.root.bg.prefabbg.nextpage:SetOnGainFocus(function() self.root.bg.prefabbg.nextpage:SetScale(.6,.6) end)
+            self.root.bg.prefabbg.nextpage:SetOnLoseFocus(function() self.root.bg.prefabbg.nextpage:SetScale(.5,.5) end)
             self.root.bg.prefabbg.nextpage:SetOnClick(function()
                 if self.numpage < self.maxpage then
                     self.numpage = self.numpage + 1
@@ -259,13 +259,13 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         self.root.bg.prefabbg.backpage = self.root.bg.prefabbg:AddChild(ImageButton("images/ui.xml", "arrow_left.tex"))
             self.root.bg.prefabbg.backpage:SetScale(.5,.5)
             local width_backpage,height_backpage=self.root.bg.prefabbg.backpage:GetSize()
-            self.root.bg.prefabbg.backpage:SetPosition(-width_prefabbg*.25-width_backpage*.25, 0)
-            self.root.bg.prefabbg.backpage:SetNormalScale(1,1,1)
-            self.root.bg.prefabbg.backpage:SetFocusScale(1,1,1)
+            self.root.bg.prefabbg.backpage:SetPosition(-width_prefabbg*.5-width_backpage*.5, 0)
+            --self.root.bg.prefabbg.backpage:SetNormalScale(1,1,1)
+            --self.root.bg.prefabbg.backpage:SetFocusScale(1,1,1)
             self.root.bg.prefabbg.backpage:SetHoverText("上一页")
             self.root.bg.prefabbg.backpage.image:SetTint(1,1,1,.5)
-            self.root.bg.prefabbg.backpage:SetOnGainFocus(function() self.root.bg.prefabbg.backpage:ScaleTo(1,1.15,.125) end)
-            self.root.bg.prefabbg.backpage:SetOnLoseFocus(function() self.root.bg.prefabbg.backpage:ScaleTo(1.15,1,.25) end)
+            self.root.bg.prefabbg.backpage:SetOnGainFocus(function() self.root.bg.prefabbg.backpage:SetScale(.6,.6) end)
+            self.root.bg.prefabbg.backpage:SetOnLoseFocus(function() self.root.bg.prefabbg.backpage:SetScale(.5,.5) end)
             self.root.bg.prefabbg.backpage:SetOnClick(function()
                 if self.numpage > 1 then
                     self.numpage = self.numpage - 1
@@ -415,8 +415,18 @@ function FoodInfoScreen:buildlist(title)
             end    
         end 
         --print("self.prefab为空！")           
-    end
+    end   
     local listnums=list.name.en:length()
+    print("foodinfo_screen.lua:buildlist:listnums"..tostring(listnums))
+    print("foodinfo_screen.lua:buildlist:list.attribute:length"..tostring(list.attribute:length()))
+    local contet=""
+    for ii=1,list.attribute:length() do      
+        for kk,vv in pairs(list.attribute[ii]) do
+            contet=contet..kk..":"..tostring(vv).."\t"
+        end
+        contet=contet.."\n"
+    end
+    TheSim:SetPersistentString("myfoodtag.txt",contet)
     local width, height = self.root.bg:GetSize()   
     local width_prefablist,height_prefablist=self.root.bg.prefabbg.prefablist:GetSize()
     local size_prefab=60
@@ -479,7 +489,7 @@ function FoodInfoScreen:buildlist(title)
             self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages1.xml",list.name.en[i]..".tex")
             self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages2.xml",list.name.en[i]..".tex")
             self.root.bg.foodinfo.prefab:SetTexture("images/inventoryimages3.xml",list.name.en[i]..".tex")
-            self.root.bg.foodinfo.prefab:SetScale(1.5)
+            self.root.bg.foodinfo.prefab:SetScale(1.25)
             self.root.bg.foodinfo.prefab:SetHealthValue(tostring(list.tag.health[i]))
             if(list.tag.health[i]<0) then
                 self.root.bg.foodinfo.prefab:SetHealthColour({255,0,0,1})
@@ -498,6 +508,8 @@ function FoodInfoScreen:buildlist(title)
             else
                 self.root.bg.foodinfo.prefab:SetSanityColour({0,0,0,1})
             end
+            self.root.bg.foodinfo.prefab:SetAttribute(self.title)
+            self.root.bg.foodinfo.attribute:SetAttribute(list.attribute[i])
         end)
     end
 end
