@@ -50,8 +50,8 @@ local function GetFoodList()
         if cooker == "portablecookpot" then
             local str=""
             for name, recipe in pairs(v) do
+                
                 str=str..name..":"
-                print(str)
                 -- 获取食物的饥饿值、生命值和精神值
                 list_food.name.en:add(name)
                 list_food.name.zh:add(STRINGS.NAMES[string.upper(name)] or "")
@@ -61,8 +61,12 @@ local function GetFoodList()
                 list_food.tag.type:add(recipe.foodtype)     
                 local attribute={perishtime=recipe.perishtime,cooktime=recipe.cooktime}--,ingredients=recipe.card_def.ingredients
                 list_food.attribute:add(attribute)
+
+                
+
                 for k3,v3 in pairs(recipe)do
-                    print(str)
+                    print(k3,v3)
+                    
                     if type(v3)=="table" then
                         for k4,v4 in pairs(v3)do
                             if type(v4)=="table" then
@@ -70,25 +74,21 @@ local function GetFoodList()
                                     if type(v5)=="table" then
                                         for k6,v6 in pairs(v5)do
                                             str=str..k6..":"..v6.."\t"
-                                            print(str)
                                         end
                                     else
                                         str=str..k5..":"..v5.."\t"
-                                        print(str)
                                     end
                                 end
                             else
                                 str=str..k4..":"..v4.."\t"
-                                print(str)
                             end 
                         end
                     elseif type(v3)=="string" then
                         str=str..k3..":"..v3.."\t" 
-                        print(str)
                     end
                 end
+                print("\n")
                 str=str.."\n"
-                print(str)
             end
             TheSim:SetPersistentString("myrecipe.txt",str)
         end       

@@ -66,7 +66,7 @@ local FoodAttributeWidget = Class(Widget, function(self, range, pos, tags)
         width_recipelineattribute,height_recipelineattribute=self.root.recipelineattribute:GetSize()
         --print("recipelineattribute_wh:"..tostring(width_recipelineattribute)..","..tostring(height_recipelineattribute))
         local x_recipelineattribute=0
-        local y_recipelineattribute=-self.h*.5+height_recipelineattribute*.5
+        local y_recipelineattribute=-height_recipelineattribute*.5
         --print("recipelineattribute_pos:"..tostring(x_recipelineattribute)..","..tostring(y_recipelineattribute))
         self.root.recipelineattribute:SetPosition(x_recipelineattribute,y_recipelineattribute)
         --self.root.recipelineattribute:SetScale(.8)
