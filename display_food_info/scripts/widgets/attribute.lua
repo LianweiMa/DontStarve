@@ -29,10 +29,10 @@ function AttributeWidget:Init()
     local w_downtext,h_downtext=self.root.downtext:GetRegionSize()
     self.root.downtext:SetPosition(0,-h_downtext*.5)
 
-    --添加一个背景
+    --[[添加一个背景
         self.root.bg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex")) 
         self.root.bg:SetSize(w_splitline,h_splitline)
-        self.root.bg:SetPosition(0,0)
+        self.root.bg:SetPosition(0,0)]]
 end
 
 function AttributeWidget:SetUpText(str)

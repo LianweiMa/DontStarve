@@ -9,6 +9,7 @@ local TextButton = require "widgets/textbutton"
 local FoodInfoTitle = require("widgets/foodinfotitle")
 local PrefabHHS = require("widgets/prefabHHS")
 local PrefabAttribute = require("widgets/prefabattribute")
+local FoodAttribute = require("widgets/foodattribute")
 local FoodInfoScreen = Class(Screen, function(self, ower)
     Screen._ctor(self, "FoodInfoScreen") -- 构造函数，创建一个名为"FoodInfoScreen"的屏幕
     self.ower = ower 
@@ -33,43 +34,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         width, height = self.root.bg:GetSize()
         --print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
         local x=0
-        local y=height/2-10  
-    --添加imagebutton，用来显示食材
-    self.root.bg.buttoningredient = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_active.tex"))
-        local width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
-        --self.root.bg.buttoningredient:SetSize(scale_x*width_btingredient, scale_y*height_btingredient)
-        --width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
-        self.root.bg.buttoningredient:SetPosition(x-width_btingredient/2,y+height_btingredient/2)
-        self.root.bg.buttoningredient:SetNormalScale(1,1,1)
-        self.root.bg.buttoningredient:SetFocusScale(1,1,1)
-        self.root.bg.buttoningredient:SetOnGainFocus(function() self.root.bg.buttoningredient:ScaleTo(1,1.15,.125) end)
-        self.root.bg.buttoningredient:SetOnLoseFocus(function() self.root.bg.buttoningredient:ScaleTo(1.15,1,.25) end)
-        self.root.bg.buttoningredient:SetOnClick(function()
-            self.numpage = 1
-            self.title="ingredient"
-            self:buildlist("ingredient")
-        end) 
-            self.root.bg.buttoningredient.text=self.root.bg.buttoningredient:AddChild(Text(NEWFONT, 48, "食材"))
-            self.root.bg.buttoningredient.text:SetPosition(0,-10)
-            self.root.bg.buttoningredient.text:SetScale(.99,.99)
-    --添加imagebutton，用来显示料理
-    self.root.bg.buttonfood = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_inactive.tex"))
-        local width_btfood,height_btfood = self.root.bg.buttonfood:GetSize()
-        --self.root.bg.buttonfood:SetSize(scale_x*width_btfood, scale_y*height_btfood)
-        --width_btfood,height_btfood = self.root.bg.buttonfood:GetSize()
-        self.root.bg.buttonfood:SetPosition(x+width_btfood/2, y+height_btfood/2)
-        self.root.bg.buttonfood:SetNormalScale(1,1,1)
-        self.root.bg.buttonfood:SetFocusScale(1,1,1)
-        self.root.bg.buttonfood:SetOnGainFocus(function() self.root.bg.buttonfood:ScaleTo(1,1.15,.125) end)
-        self.root.bg.buttonfood:SetOnLoseFocus(function() self.root.bg.buttonfood:ScaleTo(1.15,1,.25) end)
-        self.root.bg.buttonfood:SetOnClick(function()
-            self.numpage = 1
-            self.title="food"
-            self:buildlist("food")
-        end)  
-            self.root.bg.buttonfood.text=self.root.bg.buttonfood:AddChild(Text(NEWFONT, 48, "料理"))
-            self.root.bg.buttonfood.text:SetPosition(0,-10)
-            self.root.bg.buttonfood.text:SetScale(.99,.99)   
+        local y=height/2-10    
     -- 添加一个背景，用来显示食物信息（右）
     self.root.bg.foodinfo = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex")) 
         --local width_foodinfo,height_foodinfo=self.root.bg.foodinfo:GetSize()
@@ -212,7 +177,10 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 monster={name=nil,value=nil},
                 sweetener={name=nil,value=nil},
             }
-            self.root.bg.foodinfo.attribute = self.root.bg.foodinfo:AddChild(PrefabAttribute(range_attribute,pos,tags))
+            self.root.bg.foodinfo.attributebg = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))
+            self.root.bg.foodinfo.attributebg:SetSize(range_attribute.w,range_attribute.h)
+            self.root.bg.foodinfo.attributebg:SetPosition(pos.x,pos.y)
+            self.root.bg.foodinfo.attributebg.attribute = self.root.bg.foodinfo.attributebg:AddChild(PrefabAttribute(range_attribute,{x=0,y=0},tags))
             --corner1
             self.root.bg.foodinfo.corner1 = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_corner_decoration.tex"))
             self.root.bg.foodinfo.corner1:SetScale(scale*.8,scale*.8)    
@@ -369,7 +337,68 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             self.root.bg.prefabbg.prefablist:SetScale(.99,.99)
             self.root.bg.prefabbg.prefablist.listslot = {}
             self:buildlist("ingredient") 
-            --print(width_prefablist,height_prefablist)                          
+            --print(width_prefablist,height_prefablist) 
+    --添加imagebutton，用来显示食材
+    self.root.bg.buttoningredient = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_active.tex"))
+        local width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
+        --self.root.bg.buttoningredient:SetSize(scale_x*width_btingredient, scale_y*height_btingredient)
+        --width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
+        self.root.bg.buttoningredient:SetPosition(x-width_btingredient/2,y+height_btingredient/2)
+        self.root.bg.buttoningredient:SetNormalScale(1,1,1)
+        self.root.bg.buttoningredient:SetFocusScale(1,1,1)
+        self.root.bg.buttoningredient:SetOnGainFocus(function() self.root.bg.buttoningredient:ScaleTo(1,1.15,.125) end)
+        self.root.bg.buttoningredient:SetOnLoseFocus(function() self.root.bg.buttoningredient:ScaleTo(1.15,1,.25) end)
+        self.root.bg.buttoningredient:SetOnClick(function()
+            self.numpage = 1
+            self.title="ingredient"
+            self:buildlist("ingredient")
+
+            local w,h=self.root.bg.foodinfo.attributebg:GetSize()
+            local tags={
+                fruit={name=nil,value=nil},
+                precook={name=nil,value=nil},
+                meat={name=nil,value=nil},
+                fish={name=nil,value=nil},
+                veggie={name=nil,value=nil},
+                egg={name=nil,value=nil},
+                monster={name=nil,value=nil},
+                sweetener={name=nil,value=nil},
+            }
+            self.root.bg.foodinfo.attributebg:KillAllChildren()
+            self.root.bg.foodinfo.attributebg.attribute = self.root.bg.foodinfo.attributebg:AddChild(PrefabAttribute({w=w,h=h},{x=0,y=0},tags))
+        end) 
+            self.root.bg.buttoningredient.text=self.root.bg.buttoningredient:AddChild(Text(NEWFONT, 48, "食材"))
+            self.root.bg.buttoningredient.text:SetPosition(0,-10)
+            self.root.bg.buttoningredient.text:SetScale(.99,.99)
+    --添加imagebutton，用来显示料理
+    self.root.bg.buttonfood = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_inactive.tex"))
+        local width_btfood,height_btfood = self.root.bg.buttonfood:GetSize()
+        --self.root.bg.buttonfood:SetSize(scale_x*width_btfood, scale_y*height_btfood)
+        --width_btfood,height_btfood = self.root.bg.buttonfood:GetSize()
+        self.root.bg.buttonfood:SetPosition(x+width_btfood/2, y+height_btfood/2)
+        self.root.bg.buttonfood:SetNormalScale(1,1,1)
+        self.root.bg.buttonfood:SetFocusScale(1,1,1)
+        self.root.bg.buttonfood:SetOnGainFocus(function() self.root.bg.buttonfood:ScaleTo(1,1.15,.125) end)
+        self.root.bg.buttonfood:SetOnLoseFocus(function() self.root.bg.buttonfood:ScaleTo(1.15,1,.25) end)
+        self.root.bg.buttonfood:SetOnClick(function()
+            self.numpage = 1
+            self.title="food"
+            self:buildlist("food")
+
+            local w,h=self.root.bg.foodinfo.attributebg:GetSize()
+            local tags={
+                foodtype={name=nil,value=nil},
+                cooktime={name=nil,value=nil},
+                perishtime={name=nil,value=nil},
+                prohibit={name=nil,value=nil},
+                recipe={name=nil,value=nil},
+            }
+            self.root.bg.foodinfo.attributebg:KillAllChildren()
+            self.root.bg.foodinfo.attributebg.attribute = self.root.bg.foodinfo.attributebg:AddChild(FoodAttribute({w=w,h=h},{x=0,y=0},tags))
+        end)  
+            self.root.bg.buttonfood.text=self.root.bg.buttonfood:AddChild(Text(NEWFONT, 48, "料理"))
+            self.root.bg.buttonfood.text:SetPosition(0,-10)
+            self.root.bg.buttonfood.text:SetScale(.99,.99)                          
 end)
 
 function FoodInfoScreen:buildlist(title)
@@ -509,7 +538,12 @@ function FoodInfoScreen:buildlist(title)
                 self.root.bg.foodinfo.prefab:SetSanityColour({0,0,0,1})
             end
             self.root.bg.foodinfo.prefab:SetAttribute(self.title)
-            self.root.bg.foodinfo.attribute:SetAttribute(list.attribute[i])
+            if self.title=="ingredient" then
+                self.root.bg.foodinfo.attributebg.attribute:SetAttribute(list.attribute[i])
+            end
+            if self.title=="food" then
+
+            end
         end)
     end
 end

@@ -43,12 +43,15 @@ local function GetIngredientList()
 end
 
 local function GetFoodList()
-    local list_food = {name = {zh=List(),en=List()}, tag = {type=List(),hunger=List(),health=List(),sanity=List()}, attribute={name=List(),value=List()}}
+    local list_food = {name = {zh=List(),en=List()}, tag = {type=List(),hunger=List(),health=List(),sanity=List()}, attribute=List()}
     -- 遍历所有的食谱。
     for cooker, v in pairs(cooking.recipes) do
         -- 遍历这个烹饪设备可以制作的所有食物，并将这些食物的信息添加到字符串中。
         if cooker == "portablecookpot" then
+            local str=""
             for name, recipe in pairs(v) do
+                str=str..name..":"
+                print(str)
                 -- 获取食物的饥饿值、生命值和精神值
                 list_food.name.en:add(name)
                 list_food.name.zh:add(STRINGS.NAMES[string.upper(name)] or "")
@@ -56,14 +59,38 @@ local function GetFoodList()
                 list_food.tag.hunger:add(recipe.hunger)
                 list_food.tag.sanity:add(recipe.sanity)
                 list_food.tag.type:add(recipe.foodtype)     
-                list_food.attribute.name:add("perishtime")
-                list_food.attribute.value:add(recipe.perishtime)
-                list_food.attribute.name:add("cooktime")
-                list_food.attribute.value:add(recipe.cooktime)
-                list_food.attribute.name:add("ingredients")
-                list_food.attribute.value:add(recipe.card_def.ingredients)
-
+                local attribute={perishtime=recipe.perishtime,cooktime=recipe.cooktime}--,ingredients=recipe.card_def.ingredients
+                list_food.attribute:add(attribute)
+                for k3,v3 in pairs(recipe)do
+                    print(str)
+                    if type(v3)=="table" then
+                        for k4,v4 in pairs(v3)do
+                            if type(v4)=="table" then
+                                for k5,v5 in pairs(v4)do
+                                    if type(v5)=="table" then
+                                        for k6,v6 in pairs(v5)do
+                                            str=str..k6..":"..v6.."\t"
+                                            print(str)
+                                        end
+                                    else
+                                        str=str..k5..":"..v5.."\t"
+                                        print(str)
+                                    end
+                                end
+                            else
+                                str=str..k4..":"..v4.."\t"
+                                print(str)
+                            end 
+                        end
+                    elseif type(v3)=="string" then
+                        str=str..k3..":"..v3.."\t" 
+                        print(str)
+                    end
+                end
+                str=str.."\n"
+                print(str)
             end
+            TheSim:SetPersistentString("myrecipe.txt",str)
         end       
     end
     return list_food
