@@ -44,13 +44,21 @@ end
 
 local function GetFoodList()
     local list_food = {name = {zh=List(),en=List()}, tag = {type=List(),hunger=List(),health=List(),sanity=List()}, attribute=List()}
-    -- 遍历所有的食谱。
+    --
+    local recipe_cards={}
+    local count=0
+    for k,v in pairs(cooking.recipe_cards)do
+        count=count+1
+    end
+    print("cooking.recipe_cards:count:"..tostring(count))
+    --遍历所有的食谱。
+    count=0
     for cooker, v in pairs(cooking.recipes) do
         -- 遍历这个烹饪设备可以制作的所有食物，并将这些食物的信息添加到字符串中。
         if cooker == "portablecookpot" then
             local str=""
             for name, recipe in pairs(v) do
-                
+                count=count+1
                 str=str..name..":"
                 -- 获取食物的饥饿值、生命值和精神值
                 list_food.name.en:add(name)
@@ -62,11 +70,8 @@ local function GetFoodList()
                 local attribute={perishtime=recipe.perishtime,cooktime=recipe.cooktime}--,ingredients=recipe.card_def.ingredients
                 list_food.attribute:add(attribute)
 
-                
-
                 for k3,v3 in pairs(recipe)do
-                    print(k3,v3)
-                    
+                    --print(k3,v3)
                     if type(v3)=="table" then
                         for k4,v4 in pairs(v3)do
                             if type(v4)=="table" then
@@ -87,12 +92,13 @@ local function GetFoodList()
                         str=str..k3..":"..v3.."\t" 
                     end
                 end
-                print("\n")
+                --print("\n")
                 str=str.."\n"
             end
             TheSim:SetPersistentString("myrecipe.txt",str)
         end       
     end
+    print("cooking.recipe:count:"..tostring(count))
     return list_food
 end
 
