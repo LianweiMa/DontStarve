@@ -1,11 +1,13 @@
 local Widget = require "widgets/widget"
 local Text = require "widgets/text"
-local AttributeWidget = Class(Widget, function(self, font, size, upstring, downstring)
+local AttributeWidget = Class(Widget, function(self, font, size, upstring, downstring, alts, tex)
     Widget._ctor(self, "AttributeWidget")
     self.fontsize = size
     self.font = font
     self.upstring = upstring
     self.downstring = downstring
+    self.alts = alts or "images/quagmire_recipebook.xml"
+    self.tex = tex or "quagmire_recipe_line_veryshort.tex"
     self.x=0
     self.y=0
     self:Init()
@@ -19,7 +21,7 @@ function AttributeWidget:Init()
     --self.root:SetHAnchor(ANCHOR_MIDDLE)
     self.root:SetPosition(self.x,self.y)
     --splitline
-    self.root.splitline = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_line_veryshort.tex"))
+    self.root.splitline = self.root:AddChild(Image(self.alts, self.tex))
     local w_splitline,h_splitline = self.root.splitline:GetSize()
     self.root.splitline:SetPosition(0,0)
     self.root.uptext = self.root:AddChild(Text(self.font, self.fontsize, self.upstring,{0,0,0,1}))

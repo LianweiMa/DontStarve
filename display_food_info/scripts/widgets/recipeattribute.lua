@@ -6,6 +6,7 @@ local Recipe = Class(Widget, function(self, range, fonttype, fontsize)
     Widget._ctor(self, "Recipe")
     self.w=range.w
     self.h=range.h
+    local s=1
     --print("recipe.lua:range:"..tostring(self.w)..","..tostring(self.h))
     self.fonttype = fonttype
     self.fontsize = fontsize
@@ -15,28 +16,38 @@ local Recipe = Class(Widget, function(self, range, fonttype, fontsize)
     self.root = self:AddChild(Widget("ROOT"))
     --self.root:SetPosition(self.x,self.y)
     --添加一个背景
-    self.root.bg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex")) 
-    self.root.bg:SetSize(self.w,self.h)
-    self.root.bg:SetPosition(0,0)
+    --self.root.bg = self.root:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex")) 
+    --self.root.bg:SetSize(self.w,self.h)
+    --self.root.bg:SetPosition(0,0)
     local gap_x=10
     local gap_y=10
     --prefab1
     self.root.prefab1 = self.root:AddChild(RecipeImage(NEWFONT))
     local width_prefab1,height_prefab1=self.root.prefab1:GetSize()
     self.root.prefab1:SetPosition(-self.w*.5+width_prefab1*.5,0)
-    --print("recipe.lua:self.root.prefab1:size:"..tostring(width_prefab1)..","..tostring(height_prefab1))
+    local scale_x = math.min(1, (self.w*.25)*s / width_prefab1)
+    local scale_y = math.min(1, (self.h)*s / height_prefab1)
+    local scale=math.min(scale_x,scale_y)
+    self.root.prefab1:SetScale(scale)
+    --print("recipeattribute.lua:x1="..tostring(-self.w*.25+width_prefab1*.5))
+    --print("recipeattribute.lua:self.root.prefab1:size:"..tostring(width_prefab1)..","..tostring(height_prefab1))
     --prefab2
     self.root.prefab2 = self.root:AddChild(RecipeImage(NEWFONT))
     local width_prefab2,height_prefab2=self.root.prefab2:GetSize()
     self.root.prefab2:SetPosition(-self.w*.25+width_prefab2*.5,0)
+    self.root.prefab2:SetScale(scale)
+    --print("recipeattribute.lua:x2="..tostring(-self.w*.25+width_prefab2*.5))
+    --print("recipeattribute.lua:self.root.prefab2:size:"..tostring(width_prefab2)..","..tostring(height_prefab2))
     --prefab3
     self.root.prefab3 = self.root:AddChild(RecipeImage(NEWFONT))
     local width_prefab3,height_prefab3=self.root.prefab3:GetSize()
     self.root.prefab3:SetPosition(width_prefab3*.5,0)
+    self.root.prefab3:SetScale(scale)
     --prefab4
     self.root.prefab4 = self.root:AddChild(RecipeImage(NEWFONT))
     local width_prefab4,height_prefab4=self.root.prefab4:GetSize()
     self.root.prefab4:SetPosition(self.w*.25+width_prefab4*.5,0)
+    self.root.prefab4:SetScale(scale)
 end)
 
 function Recipe:GetSize()
@@ -112,10 +123,6 @@ end
 
 function Recipe:SetScale(scale)
     self.root.prefab.img:SetScale(scale,scale)
-end
-
-function Recipe:SetAttribute(attribute)
-    self.root.attribute:SetDownText(attribute)
 end
 
 return Recipe

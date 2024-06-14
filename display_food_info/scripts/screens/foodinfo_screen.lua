@@ -455,7 +455,7 @@ function FoodInfoScreen:buildlist(title)
         end
         contet=contet.."\n"
     end
-    TheSim:SetPersistentString("myfoodtag.txt",contet)
+    --TheSim:SetPersistentString("myfoodtag.txt",contet)
     local width, height = self.root.bg:GetSize()   
     local width_prefablist,height_prefablist=self.root.bg.prefabbg.prefablist:GetSize()
     local size_prefab=60
@@ -542,7 +542,7 @@ function FoodInfoScreen:buildlist(title)
                 self.root.bg.foodinfo.attributebg.attribute:SetAttribute(list.attribute[i])
             end
             if self.title=="food" then
-
+                self.root.bg.foodinfo.attributebg.attribute:SetAttribute(list.attribute[i])
             end
         end)
     end

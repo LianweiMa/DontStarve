@@ -1,6 +1,6 @@
 require "lists/list_func"
 local cooking = require("cooking")
-
+require("lists/foodinfo")
 local roundsg = function(value) return math.floor(value * 10 + 0.5) / 10 end
 
 local function GetIngredientList()
@@ -50,55 +50,38 @@ local function GetFoodList()
     for k,v in pairs(cooking.recipe_cards)do
         count=count+1
     end
-    print("cooking.recipe_cards:count:"..tostring(count))
+    --print("cooking.recipe_cards:count:"..tostring(count))
     --遍历所有的食谱。
     count=0
     for cooker, v in pairs(cooking.recipes) do
         -- 遍历这个烹饪设备可以制作的所有食物，并将这些食物的信息添加到字符串中。
         if cooker == "portablecookpot" then
-            local str=""
+            --local str=""
             for name, recipe in pairs(v) do
-                count=count+1
-                str=str..name..":"
+                --count=count+1
+                --str=str..name..":"
                 -- 获取食物的饥饿值、生命值和精神值
                 list_food.name.en:add(name)
                 list_food.name.zh:add(STRINGS.NAMES[string.upper(name)] or "")
                 list_food.tag.health:add(recipe.health)
                 list_food.tag.hunger:add(recipe.hunger)
                 list_food.tag.sanity:add(recipe.sanity)
-                list_food.tag.type:add(recipe.foodtype)     
-                local attribute={perishtime=recipe.perishtime,cooktime=recipe.cooktime}--,ingredients=recipe.card_def.ingredients
-                list_food.attribute:add(attribute)
-
-                for k3,v3 in pairs(recipe)do
-                    --print(k3,v3)
-                    if type(v3)=="table" then
-                        for k4,v4 in pairs(v3)do
-                            if type(v4)=="table" then
-                                for k5,v5 in pairs(v4)do
-                                    if type(v5)=="table" then
-                                        for k6,v6 in pairs(v5)do
-                                            str=str..k6..":"..v6.."\t"
-                                        end
-                                    else
-                                        str=str..k5..":"..v5.."\t"
-                                    end
-                                end
-                            else
-                                str=str..k4..":"..v4.."\t"
-                            end 
+                list_food.tag.type:add(recipe.foodtype)  
+                local ingredients={}
+                local prohibit=""
+                for kk,vv in pairs(recipes)do
+                    if vv.name == name then
+                        ingredients=vv.ingredients
+                        for kkk,vvv in pairs(vv.prohibit)do    
+                            prohibit=prohibit..vvv..","
                         end
-                    elseif type(v3)=="string" then
-                        str=str..k3..":"..v3.."\t" 
                     end
-                end
-                --print("\n")
-                str=str.."\n"
+                end                
+                local attribute={foodtype=recipe.foodtype,perishtime=recipe.perishtime,cooktime=recipe.cooktime,ingredients=ingredients,prohibit=prohibit}--
+                list_food.attribute:add(attribute)
             end
-            TheSim:SetPersistentString("myrecipe.txt",str)
         end       
     end
-    print("cooking.recipe:count:"..tostring(count))
     return list_food
 end
 
