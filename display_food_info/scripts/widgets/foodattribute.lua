@@ -108,7 +108,11 @@ function FoodAttributeWidget:SetAttribute(attribute)
     self:IniAttribute()
     self.root.foodtypeattribute:SetDownText(STRINGS.NAMES[string.upper(attribute["foodtype"])] or attribute["foodtype"] or "nil")
     self.root.cooktimeattribute:SetDownText(tostring(attribute["cooktime"]*20).."秒" or "nil")
-    self.root.perishtimeattribute:SetDownText(tostring(attribute["perishtime"]/480).."天" or "永久")
+    if attribute["perishtime"] then        
+        self.root.perishtimeattribute:SetDownText(tostring(attribute["perishtime"]/480).."天")
+    else
+        self.root.perishtimeattribute:SetDownText("永久")
+    end
     self.root.prohibitattribute:SetDownText(STRINGS.NAMES[string.upper(attribute["prohibit"])] or attribute["prohibit"] or "nil")
     if attribute["foodtype"] then       
         self.root.foodtypeattribute:SetColour({255,0,0,1})

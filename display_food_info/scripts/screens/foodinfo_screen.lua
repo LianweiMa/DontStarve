@@ -29,7 +29,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
         local scale_x = math.min(1, w_hud*.75 / (width-100))
         local scale_y = math.min(1, h_hud*.75 / (height-50))
         local scale = math.min(scale_x,scale_y)
-        --print("foodinfo_screen.lua:scale:"..tostring(scale))
+        print("foodinfo_screen.lua:scale:"..tostring(scale))
         self.root.bg:SetSize(scale_x*width, scale_y*height)
         width, height = self.root.bg:GetSize()
         --print("self.root.bg:GetSize():"..tostring(width)..","..tostring(height))
@@ -177,7 +177,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 monster={name=nil,value=nil},
                 sweetener={name=nil,value=nil},
             }
-            self.root.bg.foodinfo.attributebg = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))
+            self.root.bg.foodinfo.attributebg = self.root.bg.foodinfo:AddChild(Image("images/quagmire_recipebook.xml", "blank.tex"))--"quagmire_recipe_menu_block.tex"
             self.root.bg.foodinfo.attributebg:SetSize(range_attribute.w,range_attribute.h)
             self.root.bg.foodinfo.attributebg:SetPosition(pos.x,pos.y)
             self.root.bg.foodinfo.attributebg.attribute = self.root.bg.foodinfo.attributebg:AddChild(PrefabAttribute(range_attribute,{x=0,y=0},tags))
@@ -197,7 +197,7 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
                 self.root.bg.foodinfo.corner2:SetPosition(x_corner2,y_corner2)
                 self.root.bg.foodinfo.corner2:SetRotation(-90)
     -- 添加一个image，用来显示食物列表（左）
-    self.root.bg.prefabbg = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "quagmire_recipe_menu_block.tex"))  
+    self.root.bg.prefabbg = self.root.bg:AddChild(Image("images/quagmire_recipebook.xml", "blank.tex"))  
         local width_prefabbg=width/2-2*interval_left
         local height_prefabbg=height-2*interval_bottom
         self.root.bg.prefabbg:SetSize(width_prefabbg,height_prefabbg)         
@@ -339,15 +339,21 @@ local FoodInfoScreen = Class(Screen, function(self, ower)
             self:buildlist("ingredient") 
             --print(width_prefablist,height_prefablist) 
     --添加imagebutton，用来显示食材
-    self.root.bg.buttoningredient = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_active.tex"))
+    self.root.bg.buttoningredient = self.root.bg:AddChild(ImageButton("images/quagmire_recipebook.xml", "quagmire_recipe_tab_active.tex"))      
         local width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
+        self.root.bg.buttoningredient:ForceImageSize(width_btingredient*scale,height_btingredient*scale)
+        print("foodinfo_screen.lua:buttoningredient:scale:"..tostring(scale))
+        width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
         --self.root.bg.buttoningredient:SetSize(scale_x*width_btingredient, scale_y*height_btingredient)
         --width_btingredient,height_btingredient = self.root.bg.buttoningredient:GetSize()
-        self.root.bg.buttoningredient:SetPosition(x-width_btingredient/2,y+height_btingredient/2)
-        self.root.bg.buttoningredient:SetNormalScale(1,1,1)
-        self.root.bg.buttoningredient:SetFocusScale(1,1,1)
-        self.root.bg.buttoningredient:SetOnGainFocus(function() self.root.bg.buttoningredient:ScaleTo(1,1.15,.125) end)
-        self.root.bg.buttoningredient:SetOnLoseFocus(function() self.root.bg.buttoningredient:ScaleTo(1.15,1,.25) end)
+        local gap=10
+        local x_buttoningredient=-width_btingredient*.5-gap
+        local y_buttoningredient=height*.5+height_btingredient*.5+gap
+        self.root.bg.buttoningredient:SetPosition(x_buttoningredient,y_buttoningredient)
+        --self.root.bg.buttoningredient:SetNormalScale(1,1,1)
+        --self.root.bg.buttoningredient:SetFocusScale(1,1,1)
+        self.root.bg.buttoningredient:SetOnGainFocus(function() self.root.bg.buttoningredient:SetScale(1+gap/width_btingredient,1+gap/height_btingredient) end)
+        self.root.bg.buttoningredient:SetOnLoseFocus(function() self.root.bg.buttoningredient:SetScale(1,1) end)
         self.root.bg.buttoningredient:SetOnClick(function()
             self.numpage = 1
             self.title="ingredient"
@@ -458,7 +464,7 @@ function FoodInfoScreen:buildlist(title)
     --TheSim:SetPersistentString("myfoodtag.txt",contet)
     local width, height = self.root.bg:GetSize()   
     local width_prefablist,height_prefablist=self.root.bg.prefabbg.prefablist:GetSize()
-    local size_prefab=60
+    local size_prefab=80
     local numsperrow = math.ceil(width_prefablist/size_prefab)-1
     local numspercol = math.ceil(height_prefablist/size_prefab)-1
     local numsperpage = numsperrow*numspercol
@@ -482,6 +488,7 @@ function FoodInfoScreen:buildlist(title)
 	        self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(scale_listlot,scale_listlot)
             local gainfocus_scalex=(width_listslot*scale_listlot+2*gap_x)/width_listslot
             local gainfocus_scaley=(height_listlot*scale_listlot+2*gap_y)/height_listlot
+            local gainfocus_scale=math.min(gainfocus_scalex,gainfocus_scaley)
             width_listslot=width_listslot*scale_listlot
             height_listlot=height_listlot*scale_listlot
             --(width_listslot+2*gap_x)/width_listslot
@@ -490,7 +497,7 @@ function FoodInfoScreen:buildlist(title)
             --self.root.bg.prefabbg.prefablist.listslot[i]:SetNormalScale(.8,.8,1)
 	        --self.root.bg.prefabbg.prefablist.listslot[i]:SetFocusScale(.8,.8,1)
             --self.root.bg.prefabbg.prefablist.listslot[i]:ScaleTo(.85,.85,1)
-	        self.root.bg.prefabbg.prefablist.listslot[i]:SetOnGainFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(gainfocus_scalex,gainfocus_scaley) end)
+	        self.root.bg.prefabbg.prefablist.listslot[i]:SetOnGainFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(gainfocus_scale,gainfocus_scale) end)
 		    self.root.bg.prefabbg.prefablist.listslot[i]:SetOnLoseFocus(function() self.root.bg.prefabbg.prefablist.listslot[i]:SetScale(scale_listlot,scale_listlot) end)
         
         self.root.bg.prefabbg.prefablist.listslot[i].im = self.root.bg.prefabbg.prefablist.listslot[i]:AddChild(Image("images/inventoryimages.xml",list.name.en[i]..".tex"))    

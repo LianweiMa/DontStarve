@@ -134,7 +134,7 @@ local PrefabHHSWidget = Class(Widget, function(self, range, fonttype, fontsize)
                 self.root.sanity.textbg.text=self.root.sanity.textbg:AddChild(Text(NEWFONT, health_fontsize, ""))
                 self.root.sanity.textbg.text:SetColour({0,0,0,1})]]
     --attribute
-        self.root.attribute:SetScale(scale_health)
+        self.root.attribute:SetScale(scale_health*.8)
         width_attribute,height_attribute=self.root.attribute:GetScaledSize()
         --print("prefabHHS.lua:self.root.attribute:scaledsize:"..tostring(width_attribute)..","..tostring(height_attribute))
         local x_attribute=x_hunger
